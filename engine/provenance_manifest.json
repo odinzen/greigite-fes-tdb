@@ -1,0 +1,419 @@
+{
+  "schema_version": "0.1.0",
+  "kind": "ProvenanceManifest",
+  "about": "Machine-readable, provenance-tracked index of the campaign: typed artifacts (literature TDBs to fetch, measured values from papers, collaborator experimental data) and the recipe DAG the build reads from. Every value is auditable back to a typed source.",
+  "campaign": {
+    "id": "greigite-fes-tdb",
+    "name": "Greigite (Fe3S4) Fe–S(–O) CALPHAD campaign",
+    "description": "Add a measured greigite (Fe3S4) line compound to a published Fe–S CALPHAD base and propagate it to Fe–S–O, with a fully provenance-tracked path from primary sources — literature TDBs (TDBDB), measured thermodynamic values (papers), and collaborator experimental data — to the derived TDBs and the manuscript figures. Source TDBs are fetched and derived TDBs built on first run.",
+    "chemical_systems": [
+      "Fe-S",
+      "Ca-Fe-O-S"
+    ]
+  },
+  "papers": [
+    {
+      "id": "paper:subramani2020",
+      "kind": "Paper",
+      "doi": "10.1073/pnas.2017312117",
+      "title": "Greigite (Fe3S4) is thermodynamically stable: Implications for its terrestrial and planetary occurrence",
+      "authors": [
+        "T. Subramani",
+        "K. Lilova",
+        "M. Abramchuk",
+        "K. D. Leinenweber",
+        "A. Navrotsky"
+      ],
+      "year": 2020,
+      "venue": "Proc. Natl. Acad. Sci. (PNAS)",
+      "url": "https://doi.org/10.1073/pnas.2017312117",
+      "kg": {
+        "corpus_id": 389,
+        "tags": [
+          "greigite",
+          "formation-enthalpy",
+          "drop-solution-calorimetry",
+          "Fe-S"
+        ]
+      }
+    },
+    {
+      "id": "paper:shumway2022",
+      "kind": "Paper",
+      "doi": "10.1016/j.jct.2022.106836",
+      "title": "The low-temperature heat capacity and thermodynamic properties of greigite (Fe3S4)",
+      "authors": [
+        "S. G. Shumway",
+        "J. Wilson",
+        "K. Lilova",
+        "T. Subramani",
+        "A. Navrotsky",
+        "B. F. Woodfield"
+      ],
+      "year": 2022,
+      "venue": "J. Chem. Thermodyn.",
+      "url": "https://doi.org/10.1016/j.jct.2022.106836",
+      "kg": {
+        "corpus_id": 384,
+        "tags": [
+          "greigite",
+          "heat-capacity",
+          "standard-entropy",
+          "debye-einstein",
+          "Fe-S"
+        ]
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "tdb:dilner2015_femns",
+      "type": "tdb_from_tdbdb",
+      "role": "base TDB for the Fe–S greigite build",
+      "elements": [
+        "Fe",
+        "Mn",
+        "S"
+      ],
+      "fetch": {
+        "itemid": "calphadj_1-s2.0-S0364591614000960-mmc1_1",
+        "url": "http://ars.els-cdn.com/content/image/1-s2.0-S0364591614000960-mmc1.zip",
+        "zip_member": "mmc1/FeMnS.TDB",
+        "dest": "artifacts/tdb/calphadj_1-s2.0-S0364591614000960-mmc1_1.tdb",
+        "redistribute": false
+      },
+      "provenance": {
+        "source": "tdbdb",
+        "source_id": "tdbdb:calphadj_1-s2.0-S0364591614000960-mmc1_1",
+        "citation": "Dilner, D., Mao, H. & Selleby, M. Thermodynamic assessment of the Fe–Mn–S system. Calphad (2015). | indexed by TDBDB, Brown University (https://avdwgroup.engin.brown.edu/)",
+        "url": "https://www.sciencedirect.com/science/article/pii/S0364591614000960",
+        "method": {
+          "fe_s_edge": "Lee, Sundman, Kim & Chin (ISIJ)",
+          "liquid_model": "partially-ionic two-sublattice (IONIC_LIQ)",
+          "exported_against": "SGTE SSUB4"
+        }
+      }
+    },
+    {
+      "id": "tdb:dilner2017_cafeos",
+      "type": "tdb_from_tdbdb",
+      "role": "base TDB for the Fe–S–O greigite build",
+      "elements": [
+        "Ca",
+        "Fe",
+        "O",
+        "S"
+      ],
+      "fetch": {
+        "itemid": "calphadj_1-s2.0-S0364591616301584-mmc1_1",
+        "url": "http://ars.els-cdn.com/content/image/1-s2.0-S0364591616301584-mmc1.zip",
+        "zip_member": "FeCaOS.TDB.txt",
+        "dest": "artifacts/tdb/calphadj_1-s2.0-S0364591616301584-mmc1_1.tdb",
+        "redistribute": false
+      },
+      "provenance": {
+        "source": "tdbdb",
+        "source_id": "tdbdb:calphadj_1-s2.0-S0364591616301584-mmc1_1",
+        "citation": "Dilner, D. & Selleby, M. Thermodynamic assessment of the Ca–Fe–O–S system. Calphad (2017). | indexed by TDBDB, Brown University",
+        "url": "https://www.sciencedirect.com/science/article/pii/S0364591616301584",
+        "method": {
+          "zip_member_extension": ".tdb.txt"
+        }
+      }
+    },
+    {
+      "id": "meas:subramani2020:dHf_greigite",
+      "type": "measurement",
+      "paper": "paper:subramani2020",
+      "phase": "GREIGITE",
+      "quantity": "formation_enthalpy",
+      "value": -144.1,
+      "unit": "kJ/mol",
+      "basis": "per FeS1.33",
+      "uncertainty": {
+        "value": 7.3,
+        "unit": "kJ/mol",
+        "kind": "absolute"
+      },
+      "conditions": {
+        "temperature_K": 298.15,
+        "pressure_Pa": 101325
+      },
+      "measurement_method": "drop-solution calorimetry (thermochemical cycle)",
+      "locator": {
+        "table": "Table 1",
+        "page": 2
+      },
+      "derived_values": [
+        {
+          "basis": "per Fe3S4",
+          "value": -432.3,
+          "unit": "kJ/mol",
+          "note": "= 3 × per-FeS1.33"
+        }
+      ],
+      "provenance": {
+        "source": "paper",
+        "source_id": "paper:subramani2020:Table1",
+        "citation": "Subramani et al. (2020), PNAS. doi:10.1073/pnas.2017312117",
+        "url": "https://doi.org/10.1073/pnas.2017312117",
+        "method": {
+          "table": "Table 1",
+          "page": 2,
+          "uncertainty_is_absolute": true
+        }
+      }
+    },
+    {
+      "id": "meas:shumway2022:S298_greigite",
+      "type": "measurement",
+      "paper": "paper:shumway2022",
+      "phase": "GREIGITE",
+      "quantity": "standard_entropy",
+      "value": 71.334,
+      "unit": "J/mol/K",
+      "basis": "per FeS1.33",
+      "conditions": {
+        "temperature_K": 298.15,
+        "pressure_Pa": 101325
+      },
+      "measurement_method": "low-temperature heat-capacity integration (adiabatic/relaxation calorimetry)",
+      "locator": {
+        "table": "Table 5",
+        "page": 4
+      },
+      "provenance": {
+        "source": "paper",
+        "source_id": "paper:shumway2022:Table5",
+        "citation": "Shumway et al. (2022), J. Chem. Thermodyn. doi:10.1016/j.jct.2022.106836",
+        "url": "https://doi.org/10.1016/j.jct.2022.106836",
+        "method": {
+          "table": "Table 5",
+          "row": "298.15",
+          "column": "S_m"
+        }
+      }
+    },
+    {
+      "id": "meas:shumway2022:Cp298_greigite",
+      "type": "measurement",
+      "paper": "paper:shumway2022",
+      "phase": "GREIGITE",
+      "quantity": "heat_capacity",
+      "value": 59.686,
+      "unit": "J/mol/K",
+      "basis": "per FeS1.33",
+      "conditions": {
+        "temperature_K": 298.15,
+        "pressure_Pa": 101325
+      },
+      "role": "internal check (DE model must recover this Cp at 298.15 K)",
+      "locator": {
+        "table": "Table 5",
+        "page": 4
+      },
+      "provenance": {
+        "source": "paper",
+        "source_id": "paper:shumway2022:Table5",
+        "citation": "Shumway et al. (2022), J. Chem. Thermodyn. doi:10.1016/j.jct.2022.106836",
+        "url": "https://doi.org/10.1016/j.jct.2022.106836",
+        "method": {
+          "table": "Table 5",
+          "row": "298.15",
+          "column": "Cp,m"
+        }
+      }
+    },
+    {
+      "id": "meas:shumway2022:S300_check",
+      "type": "measurement",
+      "paper": "paper:shumway2022",
+      "phase": "GREIGITE",
+      "quantity": "standard_entropy",
+      "value": 71.704,
+      "unit": "J/mol/K",
+      "basis": "per FeS1.33",
+      "conditions": {
+        "temperature_K": 300.0,
+        "pressure_Pa": 101325
+      },
+      "role": "internal check anchor (DE-fit-recovered S(300) the build must reproduce)",
+      "locator": {
+        "table": "Table 5",
+        "page": 4
+      },
+      "provenance": {
+        "source": "paper",
+        "source_id": "paper:shumway2022:Table5",
+        "citation": "Shumway et al. (2022), J. Chem. Thermodyn. doi:10.1016/j.jct.2022.106836",
+        "url": "https://doi.org/10.1016/j.jct.2022.106836",
+        "method": {
+          "table": "Table 5",
+          "row": "300",
+          "column": "S_m"
+        }
+      }
+    },
+    {
+      "id": "meas:shumway2022:cp_debye_einstein",
+      "type": "measurement",
+      "paper": "paper:shumway2022",
+      "phase": "GREIGITE",
+      "quantity": "heat_capacity_model",
+      "basis": "per FeS1.33",
+      "measurement_method": "high-T Debye–Einstein fit to measured Cp",
+      "model": {
+        "form": "m*Debye(ThetaD/T) + n*Einstein(ThetaE/T) + A*T",
+        "coefficients": {
+          "m": 0.974,
+          "ThetaD_K": 237.85,
+          "n": 1.1329,
+          "ThetaE_K": 405.26,
+          "A_per_K": 0.0398
+        },
+        "valid_range_K": [
+          56.27,
+          302.88
+        ],
+        "note": "high-T Debye–Einstein form used downstream (NOT the mid-T polynomial, which diverges >300 K)."
+      },
+      "locator": {
+        "table": "Table 4",
+        "page": 3
+      },
+      "provenance": {
+        "source": "paper",
+        "source_id": "paper:shumway2022:Table4",
+        "citation": "Shumway et al. (2022), J. Chem. Thermodyn. doi:10.1016/j.jct.2022.106836",
+        "url": "https://doi.org/10.1016/j.jct.2022.106836",
+        "method": {
+          "table": "Table 4",
+          "fields": [
+            "m",
+            "ThetaD",
+            "n",
+            "ThetaE",
+            "A"
+          ]
+        }
+      }
+    },
+    {
+      "id": "exp:dsc_heating",
+      "type": "experimental_dataset",
+      "technique": "DSC",
+      "run": "bulk Fe3S4, heating",
+      "author": "Tamilarasan Subramani",
+      "contributor_role": "Investigation (sample preparation and calorimetric/thermal measurements)",
+      "path": "manuscript/data_dsc/Fe3S4_bulk_heating.txt",
+      "provenance": {
+        "source": "collaborator",
+        "source_id": "collaborator:subramani:dsc_heating",
+        "citation": "Experimental DSC data — Tamilarasan Subramani, Investigation (sample preparation and calorimetric/thermal measurements).",
+        "url": null,
+        "method": {
+          "in_repo_path": "manuscript/data_dsc/Fe3S4_bulk_heating.txt",
+          "encoding": "utf-16",
+          "see": "manuscript/data_dsc/SOURCE.md"
+        }
+      }
+    },
+    {
+      "id": "exp:dsc_cooling",
+      "type": "experimental_dataset",
+      "technique": "DSC",
+      "run": "bulk Fe3S4, cooling",
+      "author": "Tamilarasan Subramani",
+      "contributor_role": "Investigation (sample preparation and calorimetric/thermal measurements)",
+      "path": "manuscript/data_dsc/Fe3S4_bulk_cooling.txt",
+      "provenance": {
+        "source": "collaborator",
+        "source_id": "collaborator:subramani:dsc_cooling",
+        "citation": "Experimental DSC data — Tamilarasan Subramani, Investigation (sample preparation and calorimetric/thermal measurements).",
+        "url": null,
+        "method": {
+          "in_repo_path": "manuscript/data_dsc/Fe3S4_bulk_cooling.txt",
+          "encoding": "utf-16",
+          "see": "manuscript/data_dsc/SOURCE.md"
+        }
+      }
+    },
+    {
+      "id": "exp:xrd_postdsc600",
+      "type": "experimental_dataset",
+      "technique": "XRD",
+      "run": "bulk Fe3S4, post-DSC to 600 °C (decomposition product)",
+      "author": "Tamilarasan Subramani",
+      "contributor_role": "Investigation (sample preparation and calorimetric/thermal measurements)",
+      "path": "manuscript/data_dsc/Fe3S4_bulk_XRD_postDSC600.png",
+      "provenance": {
+        "source": "collaborator",
+        "source_id": "collaborator:subramani:xrd_postdsc600",
+        "citation": "Experimental XRD data — Tamilarasan Subramani, Investigation (sample preparation and calorimetric/thermal measurements).",
+        "url": null,
+        "method": {
+          "in_repo_path": "manuscript/data_dsc/Fe3S4_bulk_XRD_postDSC600.png",
+          "see": "manuscript/data_dsc/SOURCE.md"
+        }
+      }
+    }
+  ],
+  "derived": [
+    {
+      "id": "tdb:fes_greigite_v1",
+      "type": "derived_tdb",
+      "output": "artifacts/tdb/fes_greigite_v1.tdb",
+      "variants": [
+        "fes_greigite_v1_dHf_lo.tdb",
+        "fes_greigite_v1_dHf_hi.tdb"
+      ],
+      "produced_by": "engine/build_greigite_tdb.py",
+      "derived_from": [
+        "tdb:dilner2015_femns",
+        "meas:subramani2020:dHf_greigite",
+        "meas:shumway2022:S298_greigite",
+        "meas:shumway2022:cp_debye_einstein"
+      ],
+      "method": "G_greigite(T) = dHf(298) + ∫Cp dT − T·[S°(298) + ∫(Cp/T) dT], grafted as +3 GHSERFE +4 GHSERSS + remainder on the Dilner SER frame"
+    },
+    {
+      "id": "tdb:fes_o_greigite_v1",
+      "type": "derived_tdb",
+      "output": "artifacts/tdb/fes_o_greigite_v1.tdb",
+      "produced_by": "engine/build_fes_o_tdb.py",
+      "derived_from": [
+        "tdb:dilner2017_cafeos",
+        "tdb:fes_greigite_v1"
+      ],
+      "method": "dedupe duplicate FUNCTIONs on the Dilner-2017 base, then graft the GREIGITE block (reused from fes_greigite_v1) + the Fe-only PYRITE block"
+    },
+    {
+      "id": "tdb:fes_greigite_boundaries",
+      "type": "derived_tdb",
+      "output": [
+        "artifacts/tdb/fes_greigite_boundary_lower.tdb",
+        "artifacts/tdb/fes_greigite_boundary_upper.tdb"
+      ],
+      "produced_by": "engine/build_boundary_tdbs.py",
+      "derived_from": [
+        "tdb:fes_greigite_v1"
+      ],
+      "method": "shift pyrite (±6 kJ) and pyrrhotite-GFES (±3.5 kJ) alongside the greigite ±σ variants → all-compound ±1σ envelope"
+    },
+    {
+      "id": "figures:manuscript",
+      "type": "figure_set",
+      "output_dir": "artifacts/figures/",
+      "produced_by": "manuscript/make_fig*.py, manuscript/render_fig2b.py, manuscript/surf_sens.py",
+      "derived_from": [
+        "tdb:fes_greigite_v1",
+        "tdb:fes_o_greigite_v1",
+        "tdb:fes_greigite_boundaries",
+        "exp:dsc_heating",
+        "exp:dsc_cooling",
+        "exp:xrd_postdsc600"
+      ],
+      "note": "each script reads its TDB(s) from artifacts/tdb/ (and DSC/XRD from the experimental datasets above) and writes a PNG to artifacts/figures/."
+    }
+  ]
+}
