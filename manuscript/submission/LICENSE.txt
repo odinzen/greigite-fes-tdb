@@ -1,0 +1,9 @@
+Copyright (c) 2026 Odinzen LLC (Michael Bustamante, Gabriel Bustamante) and the authors.
+
+Licensed under the MIT License. Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without restriction. The full
+verbatim MIT License text is in the LICENSE file at the repository root.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED. See the LICENSE file for the complete terms.
