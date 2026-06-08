@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Editor / OS cruft
+.DS_Store
+*.swp
+*~
+
+# Claude Code: commit .claude/settings.json (shared project config, incl. the
+# WebFetch/WebSearch deny guard); keep personal session overrides out.
+.claude/settings.local.json
+
+# LibreOffice / Office lock + temp files
+.~lock.*#
+*.tmp
+~$*
+
+# All generated output (fetched/built TDBs, figures, notes, reports).
+artifacts/
+
+# Generated engine result JSONs live in artifacts/, not engine/ (guard against
+# re-adding the regenerable ones; fes_greigite_suppressed_fields.json IS committed
+# reference data with no generator).
+engine/fes_engine_boundaries.json
+engine/boundary_cases_report.json
+
+# Process docs — kept on disk for continuation, never published.
+HANDOFF*.md
+manuscript/FESO_ENGINE_BUILD_RECIPE_for_Gabriel.md
+
+# No CALPHAD .tdb is committed (decision: regenerate/fetch everything into
+# artifacts/). This guards against accidentally re-adding a database file.
+*.tdb
+
+# No Word documents are committed (manuscript draft, cover letter, etc. live in
+# the authors' working copy). Guards against re-adding any .docx.
+*.docx
