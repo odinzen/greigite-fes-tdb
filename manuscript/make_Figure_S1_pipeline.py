@@ -2,19 +2,14 @@
 """Fig. S1 - the four-step reproducible pipeline that produces this paper's
 databases and figures.
 
-No platform/product name: the system is described purely by the four steps it
-runs. The Gibbs energy function (TDB format) is the common data currency passed
-between steps; provenance is recorded at each step. This is the subset of a
-larger research codebase that this study actually exercises, packaged on its own
-under a permissive licence.
+The Gibbs energy function (TDB format) is the common data currency passed
+between steps, and provenance is recorded at each step.
 
-Step 1 loads the typed knowledge-graph dump (engine/provenance_manifest.json):
+Step 1 reads the typed provenance manifest (engine/provenance_manifest.json):
 the TDB fetch URLs, the measured greigite values, and the build recipe. The
-later steps fetch the literature TDBs from those URLs and build from the
-measured values. The upstream OCR + agentic extraction that populated the
-knowledge graph lives in the internal codebase and is not re-run here; this open
-subset builds from the dumped manifest, which keeps every value auditable back
-to its primary source.
+later steps fetch the literature TDBs from those URLs and build the derived
+databases from the measured values, keeping every value auditable back to its
+primary source.
 """
 
 from pathlib import Path
@@ -40,11 +35,11 @@ STEPS = [
     (
         "1",
         "Provenance manifest",
-        "Load the typed knowledge-graph dump - TDB fetch\n"
-        "URLs, the build recipe, and greigite values\n"
-        "(Subramani 2020; Shumway 2022) OCR-extracted\n"
-        "from the primary calorimetry papers.",
-        "tool: provenance_manifest.json (typed KG export)",
+        "Load the typed provenance manifest - TDB fetch\n"
+        "URLs, the build recipe, and the measured greigite\n"
+        "values (Subramani 2020; Shumway 2022) cited to\n"
+        "the primary calorimetry papers.",
+        "tool: provenance_manifest.json (typed manifest)",
         "TDB URLs + measured values\n+ build recipe (DAG)",
     ),
     (
