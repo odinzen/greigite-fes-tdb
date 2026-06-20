@@ -150,8 +150,8 @@ fig.text(
     color="0.35",
 )
 fig.tight_layout(rect=[0, 0.02, 1, 0.97])
-fig.savefig(f"{OUT}/fig_engine_vs_prototype.png", dpi=200)
-print("saved fig_engine_vs_prototype.png")
+fig.savefig(f"{OUT}/explore_engine_vs_prototype.png", dpi=200)
+print("saved explore_engine_vs_prototype.png")
 print(
     "engine greigite @300:",
     round(e_lo[0], 1),

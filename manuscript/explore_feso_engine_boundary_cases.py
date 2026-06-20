@@ -1,14 +1,25 @@
 #!/usr/bin/env python
-"""Fig. 6 (B&W) — Fe-S-O predominance at 298.15 K, single-database engine,
-central dHf (left) vs greigite +1sigma (right).
+"""Fig. 3 (Fe-S-O) — TRUE single-database engine predominance, two boundary cases.
 
-Same engine as make_fig3_engine.py (one TDB: Dilner-2017 Ca-Fe-O-S deduped +
-grafted pyrite + measured greigite); only the rendering is changed to the
-reviewer B&W style: white fields, black boundary lines, in-field labels,
-native-S cap. No colour.
+All phase Gibbs energies come from ONE database (fes_o_greigite_v1.tdb =
+Dilner & Selleby 2017 Ca-Fe-O-S, deduped, + grafted Dilner-2015 pyrite +
+measured greigite). NO JANAF/CRC hybrid. Per-mol-Fe phase energies are taken
+as the minimum GM (pycalphad `calculate`, robust vs the line-compound nan in
+`equilibrium`) at each phase's stoichiometric composition; gas O2/S2 references
+are the TDB GAS functions. Validated: oxide formation energies match literature
+to ~1% (FeO -251.9, Fe3O4 -334.7/Fe, Fe2O3 -367.3 kJ).
+
+Predominance = grand-potential argmin per mol-Fe over the (log fO2, log fS2)
+plane at 298.15 K:
+    Omega(phase) = G_perFe - nu_S2*mu_S2 - nu_O2*mu_O2
+    mu_S2 = G_S2ref + RT ln10 logfS2 ;  mu_O2 = G_O2ref + RT ln10 logfO2
+
+Two boundary cases mirror Fig. 2b (greigite +-1sigma, pyrrhotite -+1sigma per
+mol-Fe; pyrite central): LOWER pyrrhotite eliminated, UPPER max pyrrhotite.
+Native-S saturation (engine: 2 GHSERSS vs S2 ref = log fS2 -13.96 at 298 K)
+restored on Fe-S-O ONLY, as a cap line.
 """
 
-import sys
 from pathlib import Path
 import numpy as np, warnings
 
@@ -18,6 +29,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap, BoundaryNorm
 from pycalphad import Database, calculate
 from pycalphad.variables import T as TV, P as PV
 
@@ -26,12 +38,7 @@ ROOT = HERE.parent  # = repo root
 TDB = ROOT / "artifacts" / "tdb"
 FIG = ROOT / "artifacts" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
-sys.path.insert(0, str(HERE))
-import bw_style as bw
-
-bw.apply()
 DB = str(TDB / "fes_o_greigite_v1.tdb")
-OUT = str(FIG / "fig3_FeSO_engine_boundary_cases.png")
 db = Database(DB)
 T = 298.15
 RTLN10 = 8.31451 * T * np.log(10.0)
@@ -50,7 +57,7 @@ def evf(name):
 G_S2 = evf("F16023T")
 G_O2 = evf("F14375T")
 GHSERSS = evf("GHSERSS")
-LFS2_SAT = (2 * GHSERSS - G_S2) / RTLN10
+LFS2_SAT = (2 * GHSERSS - G_S2) / RTLN10  # native-S saturation (engine)
 
 
 def minG_perFe(phase, target, atoms_per_Fe, tol=0.02):
@@ -63,6 +70,7 @@ def minG_perFe(phase, target, atoms_per_Fe, tol=0.02):
     return gm[m].min() * atoms_per_Fe
 
 
+# phase: (calc-phase, target comp, atoms/Fe, nu_S2, nu_O2)
 SPEC = {
     "Fe": ("BCC_A2", {"FE": 1.0}, 1.0, 0.0, 0.0),
     "Po": ("PYRRHOTITE", {"FE": 0.5, "S": 0.5}, 2.0, 0.5, 0.0),
@@ -84,6 +92,8 @@ for k, (ph, tgt, apf, ns, no) in SPEC.items():
     Gpf[k] = minG_perFe(ph, tgt, apf)
     nS2[k] = ns
     nO2[k] = no
+    print(f"  {k:10s} G/molFe={Gpf[k]:11.1f}  nS2={ns:.3f} nO2={no:.3f}")
+print(f"  gas refs S2={G_S2:.1f} O2={G_O2:.1f} ; native-S sat log fS2={LFS2_SAT:.2f}")
 
 PHASES = ["Fe", "Po", "Gr", "FeS2", "Fe3O4", "Fe2O3", "FeSO4", "Fe2(SO4)3"]
 LAB = {
@@ -96,6 +106,16 @@ LAB = {
     "FeSO4": "FeSO$_4$",
     "Fe2(SO4)3": "Fe$_2$(SO$_4$)$_3$",
 }
+COL = {
+    "Fe": "#cfd8dc",
+    "Po": "#ffcc80",
+    "Gr": "#a5d6a7",
+    "FeS2": "#90caf9",
+    "Fe3O4": "#b39ddb",
+    "Fe2O3": "#ef9a9a",
+    "FeSO4": "#ffe082",
+    "Fe2(SO4)3": "#fff0b3",
+}
 
 O = np.linspace(-120.0, 0.0, 800)
 S = np.linspace(-60.0, 0.0, 800)
@@ -107,79 +127,92 @@ CASES = [
     (
         0.0,
         0.0,
-        "CENTRAL  ΔH$_f$ = −144.1 kJ/mol-FeS$_{1.33}$\ngreigite stable — borders the oxides",
+        "CENTRAL  ΔH$_f$ = −144.1 kJ/mol-FeS$_{1.33}$\ngreigite stable — greigite borders the oxides",
     ),
     (
         +7300.0,
         -3500.0,
-        "UPPER bound (greigite +1σ)\npyrrhotite appears; pyrite borders hematite",
+        "UPPER bound  (greigite +1σ)\npyrrhotite appears; pyrite borders hematite",
     ),
 ]
 
-fig, axes = plt.subplots(1, 2, figsize=(15, 8), sharey=True)
+plt.rcParams.update({"font.size": 14})
+fig, axes = plt.subplots(1, 2, figsize=(17, 9), sharey=True)
 for ax, (dGr, dPo, title) in zip(axes, CASES):
     Phi = np.zeros((len(PHASES),) + OO.shape)
     for i, p in enumerate(PHASES):
         g = Gpf[p] + (dGr if p == "Gr" else dPo if p == "Po" else 0.0)
         Phi[i] = g - nS2[p] * muS2 - nO2[p] * muO2
     field = np.argmin(Phi, axis=0)
-    field = np.where(SS > LFS2_SAT, len(PHASES), field)  # native-S field
-    # white fields, black boundary lines
+    field = np.where(
+        SS > LFS2_SAT, len(PHASES), field
+    )  # native-S field above saturation
+    PLOT_COL = [COL[p] for p in PHASES] + ["#efe3b0"]
+    cmap = ListedColormap(PLOT_COL)
+    norm = BoundaryNorm(np.arange(-0.5, len(PLOT_COL) + 0.5, 1), cmap.N)
+    ax.pcolormesh(OO, SS, field, cmap=cmap, norm=norm, shading="auto")
     ax.contour(
         OO,
         SS,
         field,
         levels=np.arange(0.5, len(PHASES) + 0.5, 1),
-        colors="black",
-        linewidths=1.1,
+        colors="k",
+        linewidths=1.0,
     )
     for i, p in enumerate(PHASES):
         mk = field == i
         if mk.sum() > 300:
             cx, cy = OO[mk].mean(), SS[mk].mean()
-            j = np.argmin((OO[mk] - cx) ** 2 + (SS[mk] - cy) ** 2)
+            j = np.argmin(
+                (OO[mk] - cx) ** 2 + (SS[mk] - cy) ** 2
+            )  # in-field point nearest centroid
             ax.text(
                 OO[mk][j],
                 SS[mk][j],
                 LAB[p],
                 ha="center",
                 va="center",
-                fontsize=11,
+                fontsize=13,
                 fontweight="bold",
             )
-    ax.axhline(LFS2_SAT, color="black", ls="--", lw=1.4)
+    adj = set()
+    for a, b in [(field[:, :-1], field[:, 1:]), (field[:-1, :], field[1:, :])]:
+        m = a != b
+        for u, v in zip(a[m], b[m]):
+            adj.add(tuple(sorted((int(u), int(v)))))
+    NM = PHASES + ["nativeS"]
+    print(
+        title.split(chr(10))[0], "adjacencies:", sorted((NM[u], NM[v]) for u, v in adj)
+    )
+    ax.axhline(LFS2_SAT, color="#7a4a00", ls="--", lw=2.0)
     ax.text(
         -60,
         LFS2_SAT / 2.0,
-        "native S  (S$_2$ saturation, log $f$(S$_2$) = %.2f)" % LFS2_SAT,
+        "native S\n(S$_2$ saturation, log $f$(S$_2$) = %.2f)" % LFS2_SAT,
         ha="center",
         va="center",
-        fontsize=10,
+        fontsize=12,
+        color="#5a3600",
         fontweight="bold",
     )
-    ax.set_title(title, fontsize=12, fontweight="bold")
-    ax.set_xlabel("log $f$(O$_2$), bar")
+    ax.set_title(title, fontsize=14)
+    ax.set_xlabel("log $f$(O$_2$), bar", fontsize=15)
+    ax.tick_params(labelsize=13)
     ax.set_xlim(-120, 0)
     ax.set_ylim(-60, 0)
-axes[0].set_ylabel("log $f$(S$_2$), bar")
-
+axes[0].set_ylabel("log $f$(S$_2$), bar", fontsize=16)
 fig.suptitle(
     "Fig. 6 — Fe–S–O predominance at 298.15 K (single-database engine): central ΔH$_f$ (left) vs greigite +1σ (right)\n"
     "Dilner-2017 Ca–Fe–O–S (deduped) + grafted pyrite + measured greigite",
-    fontsize=12,
+    fontsize=14,
     fontweight="bold",
 )
-fig.text(
-    0.5,
-    0.015,
+note = (
     "Single database (no JANAF/CRC hybrid); oxides validated to ~1% vs literature; capped at native-S saturation "
-    f"(log f(S$_2$)={LFS2_SAT:.2f}). At central ΔH$_f$ greigite is stable and borders the oxides, so pyrite does NOT "
-    "border hematite (greigite intervenes); the pyrite–hematite contact returns at greigite +1σ (right).",
-    ha="center",
-    va="bottom",
-    fontsize=8,
-    color=bw.FOOT_GREY,
+    f"(log f(S$_2$)={LFS2_SAT:.2f}).  At central ΔH$_f$ greigite is stable and borders the oxides, so pyrite does NOT border "
+    "hematite (greigite intervenes); the pyrite–hematite contact returns only at greigite +1σ (right) and in the greigite-free control (Fig. 4)."
 )
-fig.tight_layout(rect=[0, 0.05, 1, 0.92])
-fig.savefig(OUT, dpi=180, bbox_inches="tight")
-print("wrote", OUT, "; native-S sat log fS2 =", round(LFS2_SAT, 2))
+fig.text(0.5, 0.02, note, ha="center", va="bottom", fontsize=9, color="#222")
+fig.tight_layout(rect=[0, 0.055, 1, 0.92])
+fig.savefig(str(FIG / "explore_feso_engine_boundary_cases.png"), dpi=170)
+print("wrote explore_feso_engine_boundary_cases.png")

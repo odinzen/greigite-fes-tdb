@@ -137,5 +137,5 @@ ax.text(
     color="0.4",
 )
 fig.tight_layout()
-fig.savefig(str(FIG / "fig2_kristina_continuous.png"), dpi=200)
+fig.savefig(str(FIG / "explore_kristina_correct.png"), dpi=200)
 print("OK central300:", tuple(np.round(grc[0], 1)), "po@+7.3 appears:", bool(m.any()))

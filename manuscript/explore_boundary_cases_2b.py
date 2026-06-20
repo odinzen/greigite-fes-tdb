@@ -25,9 +25,9 @@ Regression fixes implemented here:
     317C/590K (Kristina DSC/XRD heating.docx).
 
 Usage (probe each case, then plot):
-    python render_fig2b.py probe lower     # probes LOWER, caches fields
-    python render_fig2b.py probe upper     # probes UPPER, caches fields
-    python render_fig2b.py plot            # draws fig2b_boundary_cases.png
+    python explore_boundary_cases_2b.py probe lower     # probes LOWER, caches fields
+    python explore_boundary_cases_2b.py probe upper     # probes UPPER, caches fields
+    python explore_boundary_cases_2b.py plot            # draws explore_boundary_cases_2b.png
 """
 
 from __future__ import annotations
@@ -184,7 +184,7 @@ def plot():
     )
     fig.text(0.5, 0.005, note, ha="center", va="bottom", fontsize=7.4, color="#333333")
     fig.tight_layout(rect=[0, 0.055, 1, 0.93])
-    out = FIG / "fig2b_boundary_cases.png"
+    out = FIG / "explore_boundary_cases_2b.png"
     fig.savefig(out, dpi=200)
     print(f"wrote {out}")
 

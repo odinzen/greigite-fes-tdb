@@ -195,7 +195,7 @@ fig.text(
     style="italic",
 )
 fig.tight_layout(rect=[0, 0.04, 1, 1])
-fig.savefig(str(FIG / "fig3_FeSO_predominance_pyrrhotite.png"), dpi=150)
+fig.savefig(str(FIG / "explore_feso_predominance_pyrrhotite.png"), dpi=150)
 plt.close(fig)
 rx.set_greigite_dHf_offset(0.0)
 

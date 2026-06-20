@@ -58,9 +58,9 @@ directory doesn't matter), named for the published figure it produces:
 | Fig. S6 | `manuscript/make_Figure_S6_dsc_2026.py` | `Figure_S6.png` |
 
 Figures S5 and S7 (powder XRD of the post-DSC products) were produced in external
-software from raw diffraction data not included in this repository. The remaining
-`manuscript/make_*.py` scripts are exploratory/superseded drafts, not part of the
-published figure set.
+software from raw diffraction data not included in this repository. The
+`manuscript/explore_*.py` scripts are exploratory/superseded drafts, not part of
+the published figure set.
 
 ## What you get
 

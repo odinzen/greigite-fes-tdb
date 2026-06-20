@@ -143,8 +143,8 @@ fig.text(
     color="0.35",
 )
 fig.tight_layout(rect=[0, 0.02, 1, 0.97])
-fig.savefig(str(FIG / "fig2_reconcile.png"), dpi=200)
-print("saved fig2_reconcile.png")
+fig.savefig(str(FIG / "explore_reconcile.png"), dpi=200)
+print("saved explore_reconcile.png")
 print("A_gr@300:", tuple(np.round(A_gr[0], 1)))
 print(
     "B@300 py:",

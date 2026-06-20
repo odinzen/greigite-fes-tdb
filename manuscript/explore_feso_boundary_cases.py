@@ -179,5 +179,5 @@ note = (
 )
 fig.text(0.5, 0.01, note, ha="center", va="bottom", fontsize=11, color="#222")
 fig.tight_layout(rect=[0, 0.065, 1, 0.92])
-fig.savefig(str(FIG / "fig3_FeSO_boundary_cases.png"), dpi=170)
-print("wrote fig3_FeSO_boundary_cases.png")
+fig.savefig(str(FIG / "explore_feso_boundary_cases.png"), dpi=170)
+print("wrote explore_feso_boundary_cases.png")

@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 """Fig. 6 (B&W, single-panel pair) — Fe-S-O predominance at 600 K.
 
-Companion to the 300 K split (make_fig_predominance_split.py, Figs. 7/8 ->
-manuscript Fig. 5). Same single TDB, same grand-potential construction, T = 600 K.
+Companion to the 300 K split (make_Figure_5_predominance.py, Fig. 5A/5B). Same single TDB, same grand-potential construction, T = 600 K.
 Two outputs (the manuscript stacks them as Fig. 6A / 6B):
   Figure_6A.png      central dHf (greigite stable, narrower field)
   Figure_6B.png   greigite +1 sigma (least-stable bound)

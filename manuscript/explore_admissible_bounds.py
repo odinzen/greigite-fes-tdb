@@ -188,13 +188,13 @@ print(
 )
 make(
     +5951.0,
-    str(FIG / "fig2_lower_admissible.png"),
+    str(FIG / "explore_lower_admissible.png"),
     "Fe-S predominance, greigite d$H_f$ = $-$142.1 kJ/mol per FeS$_{1.33}$\n"
     "(lower admissible bound; offset +5951 J/Fe$_3$S$_4$)",
 )
 make(
     +21900.0,
-    str(FIG / "fig2_upper_limit.png"),
+    str(FIG / "explore_upper_limit.png"),
     "Fe-S predominance, greigite d$H_f$ = $-$136.8 kJ/mol per FeS$_{1.33}$\n"
     "(upper +7.3 bound; offset +21900 J/Fe$_3$S$_4$)",
 )

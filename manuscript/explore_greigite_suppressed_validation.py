@@ -28,7 +28,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "fig5_greigite_suppressed_validation.png")
+OUT = str(FIG / "explore_greigite_suppressed_validation.png")
 
 
 def series(dct, idx):

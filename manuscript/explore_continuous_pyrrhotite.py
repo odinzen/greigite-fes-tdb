@@ -241,8 +241,8 @@ if __name__ == "__main__":
     axin.grid(alpha=0.3)
 
     fig.tight_layout()
-    fig.savefig(str(FIG / "fig2_continuous_pyrrhotite.png"), dpi=130)
-    print("saved fig2_continuous_pyrrhotite.png")
+    fig.savefig(str(FIG / "explore_continuous_pyrrhotite.png"), dpi=130)
+    print("saved explore_continuous_pyrrhotite.png")
 
     print("\n  T     yFe(Fe-sat) yFe(py-sat) logfS2_lo logfS2_hi  gr/py   po/gr")
     for i in range(0, len(Ts), 10):

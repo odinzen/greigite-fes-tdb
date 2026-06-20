@@ -448,7 +448,7 @@
       "id": "figures:manuscript",
       "type": "figure_set",
       "output_dir": "artifacts/figures/",
-      "produced_by": "manuscript/make_Figure_*.py (published Fig 1-6, S1-S6), plus draft/exploratory manuscript/make_*.py, render_fig2b.py, surf_sens.py",
+      "produced_by": "manuscript/make_Figure_*.py (published Fig 1-6, S1-S6); exploratory drafts are manuscript/explore_*.py",
       "derived_from": [
         "tdb:fes_greigite_v1",
         "tdb:fes_o_greigite_v1",

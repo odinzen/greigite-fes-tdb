@@ -9,7 +9,7 @@ Greigite carries the published +-7.3 kJ/mol-FeS1.33 enthalpy uncertainty
 (= +-21900 J / Fe3S4); we draw the central boundary plus a light envelope
 between the -7.3 (greigite-stabilized, wide) and +7.3 (destabilized) bounds.
 
-Reuses make_fig2_continuous machinery (pyrrhotite_wp, greigite_cp).
+Reuses explore_continuous_pyrrhotite machinery (pyrrhotite_wp, greigite_cp).
 """
 
 import sys
@@ -30,7 +30,7 @@ sys.path.insert(0, str(HERE))
 
 import pyrrhotite_wp as wp
 import greigite_cp as g
-import make_fig2_continuous as m
+import explore_continuous_pyrrhotite as m
 
 R = wp.R
 LN10 = wp.LN10
@@ -231,8 +231,10 @@ if __name__ == "__main__":
     fig.text(0.012, 0.012, foot, fontsize=7.6, color="#555555", va="bottom")
 
     fig.subplots_adjust(left=0.085, right=0.975, top=0.93, bottom=0.13)
-    fig.savefig(str(FIG / "fig2_kristina_continuous.png"), dpi=150, facecolor="white")
-    print("saved fig2_kristina_continuous.png")
+    fig.savefig(
+        str(FIG / "explore_kristina_continuous.png"), dpi=150, facecolor="white"
+    )
+    print("saved explore_kristina_continuous.png")
 
     # Report numbers: greigite triangle corners (central model)
     print(

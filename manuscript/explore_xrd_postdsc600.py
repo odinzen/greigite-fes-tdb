@@ -21,7 +21,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "fig11_xrd.png")
+OUT = str(FIG / "explore_xrd_postdsc600.png")
 
 img = plt.imread(str(DATA / "Fe3S4_bulk_XRD_postDSC600.png"))
 fig, ax = plt.subplots(figsize=(8.0, 6.0))
