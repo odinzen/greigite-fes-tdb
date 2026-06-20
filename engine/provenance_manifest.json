@@ -455,9 +455,11 @@
         "tdb:fes_greigite_boundaries",
         "exp:dsc_heating",
         "exp:dsc_cooling",
+        "exp:dsc_heating_v2",
+        "exp:dsc_cooling_v2",
         "exp:xrd_postdsc600"
       ],
-      "note": "each script reads its TDB(s) from artifacts/tdb/ (and DSC/XRD from the experimental datasets above) and writes a PNG to artifacts/figures/."
+      "note": "each script reads its TDB(s) from artifacts/tdb/ (and DSC/XRD from the experimental datasets above) and writes a PNG to artifacts/figures/. make_fig_tgdsc_2026.py builds the 2026 TG-DSC figure from the v2 datasets."
     }
   ]
 }

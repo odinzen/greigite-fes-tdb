@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Fig. 10 (B&W) — Simultaneous TG-DSC of bulk greigite on heating to 600 C.
+"""TG-DSC of bulk greigite (2020 run, B&W) — heating to 600 C.
 
-Re-plotted from the raw instrument export in data_dsc/. Left axis: DSC heat
-flow (exo up). Right axis: TG mass change (%, relative to the 15.57 mg initial
-mass; the startup transient < ~60 s is trimmed). Heating solid, cooling dashed.
-No footnote text on the figure itself (it lives in the caption). Black & white.
+The original 2020 simultaneous TG-DSC. Superseded as manuscript Fig. 10 by the
+2026 re-measurement (make_fig_tgdsc_2026.py); kept in the repo for reference.
+Re-plotted from the raw instrument export in data_dsc/. Left axis: DSC heat flow
+(exo up). Right axis: TG mass change (%, relative to the 15.57 mg initial mass;
+the startup transient < ~60 s is trimmed). Heating solid, cooling dashed. No
+in-image title (the caption lives in the manuscript). Black & white.
 """
 
 import sys
@@ -25,7 +27,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "fig10_dsc_tg.png")
+OUT = str(FIG / "fig_tgdsc_2020.png")
 M0 = 15.57  # mg, initial sample mass (from the instrument header)
 
 
@@ -71,25 +73,31 @@ TGh_pct = (TGh - base) / M0 * 100.0
 fig, axL = plt.subplots(figsize=(8.2, 5.6))
 axR = axL.twinx()
 
+# Kelvin x-axis to match the paper (and make_fig_tgdsc_2026.py). The masking and
+# baseline logic above stays in °C; only the plotted axis is converted.
+K = 273.15
+
 # DSC (left axis)
-(lh,) = axL.plot(Th, HFh, color="black", lw=1.6, label="DSC heating")
-(lc,) = axL.plot(Tc, HFc, color="black", lw=1.2, ls=(0, (5, 4)), label="DSC cooling")
-axL.set_xlabel("Temperature, °C")
+(lh,) = axL.plot(Th + K, HFh, color="black", lw=1.6, label="DSC heating")
+(lc,) = axL.plot(
+    Tc + K, HFc, color="black", lw=1.2, ls=(0, (5, 4)), label="DSC cooling"
+)
+axL.set_xlabel("Temperature, K")
 axL.set_ylabel("DSC heat flow, µV  (exo up)")
-axL.set_xlim(40, 600)
+axL.set_xlim(40 + K, 600 + K)
 
 # TG (right axis)
 (lt,) = axR.plot(
-    Th_tg, TGh_pct, color="0.45", lw=2.0, ls=(0, (1, 1)), label="TG heating (mass)"
+    Th_tg + K, TGh_pct, color="0.45", lw=2.0, ls=(0, (1, 1)), label="TG heating (mass)"
 )
 axR.set_ylabel("TG mass change, %", color="0.3")
 axR.tick_params(axis="y", colors="0.3")
 
-axL.axvline(540, color="0.6", lw=0.8, ls=":")
+axL.axvline(540 + K, color="0.6", lw=0.8, ls=":")
 axL.text(
     0.03,
     0.05,
-    "Fe$_3$S$_4$ — bulk",
+    "Fe$_3$S$_4$ — bulk (2020)",
     transform=axL.transAxes,
     fontsize=11,
     fontweight="bold",
@@ -103,11 +111,6 @@ axL.legend(
     frameon=True,
     edgecolor="black",
     fontsize=9.5,
-)
-axL.set_title(
-    "Fig. 10 — Simultaneous TG–DSC of bulk Fe$_3$S$_4$ (heating to 600 °C)",
-    fontsize=12,
-    fontweight="bold",
 )
 fig.tight_layout()
 fig.savefig(OUT, dpi=200, bbox_inches="tight")
