@@ -339,6 +339,50 @@
       }
     },
     {
+      "id": "exp:dsc_heating_v2",
+      "type": "experimental_dataset",
+      "technique": "TG-DSC",
+      "run": "bulk Fe3S4, heating (v2, blank-subtracted, 2026-06-09)",
+      "author": "Tamilarasan Subramani",
+      "contributor_role": "Investigation (sample preparation and calorimetric/thermal measurements)",
+      "path": "manuscript/data_dsc/Fe3S4_bulk_heating_v2.txt",
+      "supersedes": "exp:dsc_heating",
+      "note": "Re-measured June 2026 on a fresh pellet (initial mass 23.9313 mg), blank-subtracted against an empty alumina crucible; columns Sample Temperature (°C), TG %, HeatFlow (mW). Supersedes the v1 heating run for manuscript Fig 10.",
+      "provenance": {
+        "source": "collaborator",
+        "source_id": "collaborator:subramani:dsc_heating_v2",
+        "citation": "Experimental TG-DSC data (v2) — Tamilarasan Subramani, Investigation (sample preparation and calorimetric/thermal measurements).",
+        "url": null,
+        "method": {
+          "in_repo_path": "manuscript/data_dsc/Fe3S4_bulk_heating_v2.txt",
+          "encoding": "utf-16",
+          "see": "manuscript/data_dsc/SOURCE.md"
+        }
+      }
+    },
+    {
+      "id": "exp:dsc_cooling_v2",
+      "type": "experimental_dataset",
+      "technique": "DSC",
+      "run": "bulk Fe3S4, cooling (v2, blank-subtracted, 2026-06-09)",
+      "author": "Tamilarasan Subramani",
+      "contributor_role": "Investigation (sample preparation and calorimetric/thermal measurements)",
+      "path": "manuscript/data_dsc/Fe3S4_bulk_cooling_v2.txt",
+      "supersedes": "exp:dsc_cooling",
+      "note": "Cooling run paired with the v2 heating measurement (initial mass 23.9313 mg), blank-subtracted; DSC only — columns Sample Temperature (°C), HeatFlow (mW), no TG channel. Supersedes the v1 cooling run for manuscript Fig 10.",
+      "provenance": {
+        "source": "collaborator",
+        "source_id": "collaborator:subramani:dsc_cooling_v2",
+        "citation": "Experimental DSC data (v2) — Tamilarasan Subramani, Investigation (sample preparation and calorimetric/thermal measurements).",
+        "url": null,
+        "method": {
+          "in_repo_path": "manuscript/data_dsc/Fe3S4_bulk_cooling_v2.txt",
+          "encoding": "utf-16",
+          "see": "manuscript/data_dsc/SOURCE.md"
+        }
+      }
+    },
+    {
       "id": "exp:xrd_postdsc600",
       "type": "experimental_dataset",
       "technique": "XRD",

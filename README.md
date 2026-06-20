@@ -85,5 +85,12 @@ locally.
 
 ## License
 
-MIT — see [`LICENSE`](LICENSE). Copyright 2026 Odinzen LLC (Michael Bustamante,
-Gabriel Bustamante) and the authors.
+Dual-licensed by component:
+
+- **Code** (the `engine/` and `manuscript/` scripts) — MIT, see [`LICENSE`](LICENSE).
+- **Data, figures, and manuscript** (e.g. the experimental data under
+  `manuscript/data_dsc/`, and generated figures) — Creative Commons Attribution 4.0
+  International (CC-BY-4.0), see
+  [`manuscript/data_dsc/LICENSE-CC-BY-4.0.txt`](manuscript/data_dsc/LICENSE-CC-BY-4.0.txt).
+
+Copyright 2026 Odinzen LLC (Michael Bustamante, Gabriel Bustamante) and the authors.
