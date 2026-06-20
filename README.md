@@ -34,9 +34,15 @@ python engine/validate_greigite.py       # parse + equilibrium sanity checks
 ## Figures
 
 The manuscript figures read the built databases from `artifacts/tdb/` and write
-PNGs to `artifacts/figures/`. Build the databases first (above), then run the
-figure scripts (each resolves its own paths, so the working directory doesn't
-matter). Scripts are named for the published figure they produce:
+PNGs to `artifacts/figures/`. Build the databases first (above), then regenerate
+every published figure with one command:
+
+```bash
+python manuscript/make_all_figures.py    # -> artifacts/figures/Figure_*.png
+```
+
+Each figure also has its own script (resolving its own paths, so the working
+directory doesn't matter), named for the published figure it produces:
 
 | Published figure | Script | Output PNG |
 |---|---|---|
