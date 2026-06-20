@@ -7,6 +7,14 @@ runs. The Gibbs energy function (TDB format) is the common data currency passed
 between steps; provenance is recorded at each step. This is the subset of a
 larger research codebase that this study actually exercises, packaged on its own
 under a permissive licence.
+
+Step 1 loads the typed knowledge-graph dump (engine/provenance_manifest.json):
+the TDB fetch URLs, the measured greigite values, and the build recipe. The
+later steps fetch the literature TDBs from those URLs and build from the
+measured values. The upstream OCR + agentic extraction that populated the
+knowledge graph lives in the internal codebase and is not re-run here; this open
+subset builds from the dumped manifest, which keeps every value auditable back
+to its primary source.
 """
 
 from pathlib import Path
@@ -24,65 +32,48 @@ FIG.mkdir(parents=True, exist_ok=True)
 OUT = str(FIG / "fig01_pipeline.png")
 
 EN = "–"  # en dash
-# (num, title, facecolor, edgecolor, what-it-does, tool, this-work output)
+S = EN + "S"  # "–S"
+CFOS = "Ca" + EN + "Fe" + EN + "O" + EN + "S"
+FESO = "Fe" + EN + "S(" + EN + "O)"
+# (num, title, what-it-does, tool, this-work output)
 STEPS = [
     (
         "1",
-        "Database lookup",
-        "#cfe3f7",
-        "#1f4e79",
-        "Retrieve the assessed Fe"
-        + EN
-        + "S and\nCa"
-        + EN
-        + "Fe"
-        + EN
-        + "O"
-        + EN
-        + "S thermodynamic databases\nfrom the literature index.",
-        "tool: TDB-DB lookup",
-        "Dilner 2015 Fe"
-        + EN
-        + "S +\nDilner 2017 Ca"
-        + EN
-        + "Fe"
-        + EN
-        + "O"
-        + EN
-        + "S (.tdb)",
+        "Provenance manifest",
+        "Load the typed knowledge-graph dump - TDB fetch\n"
+        "URLs, the build recipe, and greigite values\n"
+        "(Subramani 2020; Shumway 2022) OCR-extracted\n"
+        "from the primary calorimetry papers.",
+        "tool: provenance_manifest.json (typed KG export)",
+        "TDB URLs + measured values\n+ build recipe (DAG)",
     ),
     (
         "2",
-        "OCR extraction",
-        "#cdeccd",
-        "#1e5e1e",
-        "Read the greigite enthalpy, entropy\nand heat capacity from the primary\ncalorimetry papers.",
-        "tool: OCR of source papers",
-        "Subramani 2020; Shumway 2022\n" + EN + "> machine-readable values",
+        "Database lookup",
+        "Fetch the assessed Fe" + S + " (Dilner 2015) and\n"
+        + CFOS + " (Dilner 2017) databases from\n"
+        "the URLs recorded in the manifest.",
+        "tool: TDB-DB fetch",
+        "Dilner 2015 Fe" + S + " +\nDilner 2017 " + CFOS + " (.tdb)",
     ),
     (
         "3",
         "TDB stitching",
-        "#fbe3c4",
-        "#8a4b00",
-        "Graft greigite (and pyrite) into one\ndatabase, dedupe functions, build\ndeterministically.",
-        "tool: Python stitch script",
-        "single Fe" + EN + "S(" + EN + "O) .tdb,\nbyte-reproducible",
+        "Build the greigite line compound from the\n"
+        "measured values; dedupe and graft greigite\n"
+        "(+ pyrite) onto a common SGTE91 reference.",
+        "tool: Python build / graft",
+        "single " + FESO + " .tdb\n(byte-reproducible)",
     ),
     (
         "4",
         "Predominance plotting",
-        "#e3d7f0",
-        "#4a2a70",
-        "Minimise the grand potential over\nthe redox plane to find the stable\nphase at each point.",
-        "tool: pycalphad 0.11.1 optimiser",
-        "Fe"
-        + EN
-        + "S and Fe"
-        + EN
-        + "S"
-        + EN
-        + "O predominance\ndiagrams (the paper's figures)",
+        "Grand-potential minimisation (after Holland\n"
+        "1959) with all-compound ±σ envelope and\n"
+        "native-sulfur saturation capping.",
+        "tool: pycalphad 0.11.1",
+        "Fe" + S + " and Fe" + S + EN + "O predominance\n"
+        "diagrams (the paper's figures)",
     ),
 ]
 
@@ -103,8 +94,8 @@ ax.text(
 ax.text(
     48,
     93.4,
-    "The Gibbs energy function (TDB format) is the common data currency passed between steps; "
-    "provenance is recorded at each step.",
+    "A single typed provenance manifest ties the steps together: every value is read from it and "
+    "stays traceable to its primary source.",
     ha="center",
     va="top",
     fontsize=10.3,
@@ -116,7 +107,7 @@ gap = 2.4
 n = len(STEPS)
 bh = (top - bot - gap * (n - 1)) / n
 mid_x = box_x + 50  # divider between left body and right output lane
-for i, (num, title, fc, ec, body, tool, out) in enumerate(STEPS):
+for i, (num, title, body, tool, out) in enumerate(STEPS):
     y = top - i * (bh + gap) - bh
     ax.add_patch(
         FancyBboxPatch(
@@ -186,7 +177,8 @@ for i, (num, title, fc, ec, body, tool, out) in enumerate(STEPS):
             arrowprops=dict(arrowstyle="-|>", color="black", lw=2.0),
         )
 
-# common-currency vertical bar on the right
+# provenance-manifest spine on the right: the typed record every step reads
+# from and writes back to, keeping each value traceable to its primary source
 bar_x = box_x + box_w + 2.5
 ax.add_patch(
     FancyBboxPatch(
@@ -202,11 +194,11 @@ ax.add_patch(
 ax.text(
     bar_x + 4.75,
     (top + bot) / 2,
-    "Gibbs energy function  =  common data currency",
+    "provenance manifest  =  every value typed and traceable to its source",
     ha="center",
     va="center",
     rotation=90,
-    fontsize=11.5,
+    fontsize=11,
     fontweight="bold",
     color="black",
 )
@@ -214,8 +206,7 @@ ax.text(
 ax.text(
     48,
     4.0,
-    "Open subset of a larger research codebase, packaged for reproduction - "
-    "MIT-licensed; provenance-tracked.",
+    "Each step records typed provenance back to its primary source; packaged for reproduction - MIT-licensed.",
     ha="center",
     va="top",
     fontsize=9,
