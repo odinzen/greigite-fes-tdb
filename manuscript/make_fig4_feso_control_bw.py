@@ -144,12 +144,6 @@ ax.set_xlabel("log $f$(O$_2$), bar")
 ax.set_ylabel("log $f$(S$_2$), bar")
 ax.set_xlim(-120, 0)
 ax.set_ylim(-60, 0)
-ax.set_title(
-    "Fig. 5 — Fe–S–O at 298.15 K, greigite SUPPRESSED (control)\n"
-    "magnetite borders pyrrhotite & pyrite — classical topology",
-    fontsize=11.5,
-    fontweight="bold",
-)
 fig.tight_layout(rect=[0, 0.04, 1, 1])
 fig.savefig(OUT, dpi=180, bbox_inches="tight")
 print("wrote", OUT)

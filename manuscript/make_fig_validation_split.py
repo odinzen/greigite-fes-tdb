@@ -75,7 +75,6 @@ def make(lower, upper, mid_label, title, out):
         if m.sum() > 50:
             x, y = medoid(m)
             ax.text(x, y, lab, ha="center", va="center", fontsize=13, fontweight="bold")
-    ax.set_title(title, fontsize=12.5, fontweight="bold")
     fig.tight_layout()
     fig.savefig(out, dpi=200, bbox_inches="tight")
     print("wrote", out)

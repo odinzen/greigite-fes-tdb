@@ -123,13 +123,6 @@ ax.annotate(
     bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="0.5", lw=0.6),
 )
 
-ax.set_title(
-    "Fig. 6 — Greigite stability field and its ±1σ error margin (engine)\n"
-    "pyrrhotite (Fe$_{1-x}$S) enters only if greigite sits at its +1σ (least-stable) bound",
-    fontsize=11.5,
-    fontweight="bold",
-)
-
 leg = [
     Line2D([0], [0], color="black", lw=2.0, label="greigite field (central ΔH$_f$)"),
     Line2D(

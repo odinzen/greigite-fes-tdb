@@ -147,7 +147,6 @@ def make(dGr, dPo, title, out):
     ax.set_ylabel("log $f$(S$_2$), bar")
     ax.set_xlim(-120, 0)
     ax.set_ylim(-60, 0)
-    ax.set_title(title, fontsize=12, fontweight="bold")
     fig.tight_layout()
     fig.savefig(out, dpi=190, bbox_inches="tight")
     print("wrote", out)

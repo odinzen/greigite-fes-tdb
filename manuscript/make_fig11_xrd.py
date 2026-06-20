@@ -27,11 +27,6 @@ img = plt.imread(str(DATA / "Fe3S4_bulk_XRD_postDSC600.png"))
 fig, ax = plt.subplots(figsize=(8.0, 6.0))
 ax.imshow(img)
 ax.axis("off")
-ax.set_title(
-    "Fig. 11 — PXRD of bulk Fe$_3$S$_4$ after DSC to 600 °C → pyrrhotite-3T (Fe$_7$S$_8$)",
-    fontsize=12,
-    fontweight="bold",
-)
 fig.tight_layout()
 fig.savefig(OUT, dpi=200, bbox_inches="tight")
 print("wrote", OUT)

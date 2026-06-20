@@ -44,11 +44,6 @@ ax.set_ylabel("C$_p$ per FeS$_{1.33}$, J/mol·K")
 ax.set_xlim(0, 600)
 ax.set_ylim(0, 80)
 ax.legend(loc="lower right", frameon=True, edgecolor="black", fontsize=10)
-ax.set_title(
-    "Fig. 2 — Greigite heat capacity (Debye–Einstein fit, Shumway 2022)",
-    fontsize=12.5,
-    fontweight="bold",
-)
 
 fig.tight_layout(rect=[0, 0.04, 1, 1])
 fig.savefig(OUT, dpi=200, bbox_inches="tight")
