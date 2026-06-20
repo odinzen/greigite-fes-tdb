@@ -31,6 +31,19 @@ python engine/build_boundary_tdbs.py     # -> artifacts/tdb/fes_greigite_boundar
 python engine/validate_greigite.py       # parse + equilibrium sanity checks
 ```
 
+## Figures
+
+The manuscript figures read the built databases from `artifacts/tdb/` and write
+PNGs to `artifacts/figures/`. Build the databases first (above), then:
+
+```bash
+python engine/validate_fes_engine.py     # predominance sweep -> artifacts/figures/fes_engine_diagram.png
+python manuscript/make_fig3_engine.py    # Fe–S–O single-database predominance
+# the remaining manuscript/make_fig*.py and render_fig2b.py regenerate the rest
+```
+
+Each script resolves its own paths, so the working directory doesn't matter.
+
 ## What you get
 
 Everything lands in the gitignored `artifacts/` tree:
