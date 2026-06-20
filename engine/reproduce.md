@@ -79,8 +79,10 @@ python engine/consistency_greigite.py    # Dilner-basis stability sigma-distance
 python engine/validate_greigite.py       # parse + equilibrium sanity
 
 # (e) manuscript figures (read TDBs from artifacts/tdb/, engine JSONs from
-#     engine/, write PNGs to artifacts/figures/)
-python manuscript/make_fig4_feso_control_bw.py    # etc. — any make_fig*.py / render_fig2b.py
+#     engine/ + artifacts/, write PNGs to artifacts/figures/). One command runs
+#     all published figures (Fig 1-6, S1-S6 -> artifacts/figures/Figure_*.png):
+python manuscript/make_all_figures.py
+#     (or run an individual manuscript/make_Figure_*.py script)
 ```
 
 The greigite build is **deterministic and idempotent within an environment** —
