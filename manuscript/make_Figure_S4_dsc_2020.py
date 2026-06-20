@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """TG-DSC of bulk greigite (2020 run, B&W) — heating to 600 C.
 
-The original 2020 simultaneous TG-DSC. Superseded as manuscript Fig. 10 by the
-2026 re-measurement (make_fig_tgdsc_2026.py); kept in the repo for reference.
+The original 2020 simultaneous TG-DSC (manuscript Fig. S4). The 2026 re-measurement
+(make_Figure_S6_dsc_2026.py, Fig. S6) is its companion; both kept for reference.
 Re-plotted from the raw instrument export in data_dsc/. Left axis: DSC heat flow
 (exo up). Right axis: TG mass change (%, relative to the 15.57 mg initial mass;
 the startup transient < ~60 s is trimmed). Heating solid, cooling dashed. No
@@ -27,7 +27,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "fig_tgdsc_2020.png")
+OUT = str(FIG / "Figure_S4.png")
 M0 = 15.57  # mg, initial sample mass (from the instrument header)
 
 
@@ -73,7 +73,7 @@ TGh_pct = (TGh - base) / M0 * 100.0
 fig, axL = plt.subplots(figsize=(8.2, 5.6))
 axR = axL.twinx()
 
-# Kelvin x-axis to match the paper (and make_fig_tgdsc_2026.py). The masking and
+# Kelvin x-axis to match the paper (and make_Figure_S6_dsc_2026.py). The masking and
 # baseline logic above stays in °C; only the plotted axis is converted.
 K = 273.15
 

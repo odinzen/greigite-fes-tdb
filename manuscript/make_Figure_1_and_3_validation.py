@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Figs. 3 & 4 (B&W, single-panel) — Engine validation, split into two figures.
+"""Figs. 1 & 3 (B&W, single-panel) — Engine validation, split into two figures.
 
-Fig. 3: greigite SUPPRESSED (classical Fe-S, Dilner-Lee).
-Fig. 4: greigite PRESENT (measured dHf) -> greigite is the stable intermediate.
+Fig. 1: greigite SUPPRESSED (classical Fe-S, Dilner-Lee).
+Fig. 3: greigite PRESENT (measured dHf) -> greigite is the stable intermediate.
 
 Boundary curves from the cached engine output (match Table 2). Labels placed at
 field medoids (no label crosses a boundary). No footnote on the figure; the
@@ -85,12 +85,12 @@ make(
     po_py,
     "Fe$_{1-x}$S\npyrrhotite",
     "Fig. 3 — greigite suppressed (classical Fe–S, Dilner–Lee)",
-    str(FIG / "fig03_validation_suppressed.png"),
+    str(FIG / "Figure_1.png"),
 )
 make(
     fe_gr,
     gr_py,
     "Fe$_3$S$_4$\ngreigite",
     "Fig. 4 — greigite present: greigite is the stable Fe–S intermediate",
-    str(FIG / "fig04_validation_present.png"),
+    str(FIG / "Figure_3.png"),
 )

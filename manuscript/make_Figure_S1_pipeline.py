@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Fig. 1 - the four-step reproducible pipeline that produces this paper's
+"""Fig. S1 - the four-step reproducible pipeline that produces this paper's
 databases and figures.
 
 No platform/product name: the system is described purely by the four steps it
@@ -29,7 +29,7 @@ ROOT = HERE.parent  # = repo root
 FIG = ROOT / "artifacts" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 
-OUT = str(FIG / "fig01_pipeline.png")
+OUT = str(FIG / "Figure_S1.png")
 
 EN = "–"  # en dash
 S = EN + "S"  # "–S"
@@ -50,8 +50,11 @@ STEPS = [
     (
         "2",
         "Database lookup",
-        "Fetch the assessed Fe" + S + " (Dilner 2015) and\n"
-        + CFOS + " (Dilner 2017) databases from\n"
+        "Fetch the assessed Fe"
+        + S
+        + " (Dilner 2015) and\n"
+        + CFOS
+        + " (Dilner 2017) databases from\n"
         "the URLs recorded in the manifest.",
         "tool: TDB-DB fetch",
         "Dilner 2015 Fe" + S + " +\nDilner 2017 " + CFOS + " (.tdb)",

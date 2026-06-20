@@ -4,8 +4,8 @@
 Companion to the 300 K split (make_fig_predominance_split.py, Figs. 7/8 ->
 manuscript Fig. 5). Same single TDB, same grand-potential construction, T = 600 K.
 Two outputs (the manuscript stacks them as Fig. 6A / 6B):
-  fig_feso_600_central.png      central dHf (greigite stable, narrower field)
-  fig_feso_600_plus1sigma.png   greigite +1 sigma (least-stable bound)
+  Figure_6A.png      central dHf (greigite stable, narrower field)
+  Figure_6B.png   greigite +1 sigma (least-stable bound)
 Per-Fe enthalpy offsets are temperature-independent, so the +1sigma shifts
 (greigite +7300, pyrrhotite -3500 J/mol-Fe) carry over from the 300 K case.
 No in-image title (the caption lives in the manuscript).
@@ -158,8 +158,8 @@ def make(dGr, dPo, out):
 
 
 print("T=600 K | log f(S2) native-S sat = %.2f" % LFS2_SAT)
-make(0.0, 0.0, str(FIG / "fig_feso_600_central.png"))
-make(7300.0, -3500.0, str(FIG / "fig_feso_600_plus1sigma.png"))
+make(0.0, 0.0, str(FIG / "Figure_6A.png"))
+make(7300.0, -3500.0, str(FIG / "Figure_6B.png"))
 
 
 def boundary(a, b):

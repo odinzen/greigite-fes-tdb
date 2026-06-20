@@ -34,15 +34,27 @@ python engine/validate_greigite.py       # parse + equilibrium sanity checks
 ## Figures
 
 The manuscript figures read the built databases from `artifacts/tdb/` and write
-PNGs to `artifacts/figures/`. Build the databases first (above), then:
+PNGs to `artifacts/figures/`. Build the databases first (above), then run the
+figure scripts (each resolves its own paths, so the working directory doesn't
+matter). Scripts are named for the published figure they produce:
 
-```bash
-python engine/validate_fes_engine.py     # predominance sweep -> artifacts/figures/fes_engine_diagram.png
-python manuscript/make_fig3_engine.py    # Fe–S–O single-database predominance
-# the remaining manuscript/make_fig*.py and render_fig2b.py regenerate the rest
-```
+| Published figure | Script | Output PNG |
+|---|---|---|
+| Fig. 1 & Fig. 3 | `manuscript/make_Figure_1_and_3_validation.py` | `Figure_1.png`, `Figure_3.png` |
+| Fig. 2 | `manuscript/make_Figure_2_feso_control.py` | `Figure_2.png` |
+| Fig. 4 | `manuscript/make_Figure_4_errorfield.py` | `Figure_4.png` |
+| Fig. 5A/5B | `manuscript/make_Figure_5_predominance.py` | `Figure_5A.png`, `Figure_5B.png` |
+| Fig. 6A/6B | `manuscript/make_Figure_6_predominance_600K.py` | `Figure_6A.png`, `Figure_6B.png` |
+| Fig. S1 | `manuscript/make_Figure_S1_pipeline.py` | `Figure_S1.png` |
+| Fig. S2 | `manuscript/make_Figure_S2_cp.py` | `Figure_S2.png` |
+| Fig. S3 | `manuscript/make_Figure_S3_feo.py` | `Figure_S3.png` |
+| Fig. S4 | `manuscript/make_Figure_S4_dsc_2020.py` | `Figure_S4.png` |
+| Fig. S6 | `manuscript/make_Figure_S6_dsc_2026.py` | `Figure_S6.png` |
 
-Each script resolves its own paths, so the working directory doesn't matter.
+Figures S5 and S7 (powder XRD of the post-DSC products) were produced in external
+software from raw diffraction data not included in this repository. The remaining
+`manuscript/make_*.py` scripts are exploratory/superseded drafts, not part of the
+published figure set.
 
 ## What you get
 

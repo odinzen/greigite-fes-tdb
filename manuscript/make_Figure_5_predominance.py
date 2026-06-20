@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""Figs. 7 & 8 (B&W, single-panel) — Fe-S-O predominance at 298.15 K, split.
+"""Fig. 5 (A/B, B&W, single-panel) — Fe-S-O predominance at 298.15 K, split.
 
-Fig. 7: central dHf (greigite stable, borders the oxides).
-Fig. 8: greigite +1 sigma (pyrrhotite appears; pyrite borders hematite).
+Fig. 5A: central dHf (greigite stable, borders the oxides).
+Fig. 5B: greigite +1 sigma (pyrrhotite appears; pyrite borders hematite).
 
 Single-database engine (one TDB). White fields, black boundary lines, in-field
 medoid labels, native-S cap. No footnote on the figure (text goes in caption).
@@ -156,11 +156,11 @@ make(
     0.0,
     0.0,
     "Fig. 7 — Fe–S–O predominance, 298.15 K, central ΔH$_f$ (greigite stable)",
-    str(FIG / "fig07_feso_central.png"),
+    str(FIG / "Figure_5A.png"),
 )
 make(
     7300.0,
     -3500.0,
     "Fig. 8 — Fe–S–O predominance, 298.15 K, greigite +1σ (pyrrhotite appears)",
-    str(FIG / "fig08_feso_plus1sigma.png"),
+    str(FIG / "Figure_5B.png"),
 )

@@ -31,7 +31,7 @@ import bw_style as bw
 
 bw.apply()
 DB = str(TDB / "fes_o_greigite_v1.tdb")
-OUT = str(FIG / "figS3_feo_stability.png")
+OUT = str(FIG / "Figure_S3.png")
 db = Database(DB)
 
 

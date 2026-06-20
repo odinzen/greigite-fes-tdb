@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fig. 5 (B&W) — Greigite stability field and its ±1σ error margin (engine).
+"""Fig. 4 (B&W) — Greigite stability field and its ±1σ error margin (engine).
 
 Central greigite field (solid) bracketed by ±1σ enthalpy bounds (dashed); a
 pyrrhotite sliver (hatched) appears only at the +1σ (least-stable) bound.
@@ -27,7 +27,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "fig06_error_field.png")
+OUT = str(FIG / "Figure_4.png")
 
 
 def series(dct, idx):

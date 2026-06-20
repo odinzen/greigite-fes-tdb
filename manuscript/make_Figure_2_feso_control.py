@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Fig. 4 (B&W) — Fe-S-O control at 298.15 K with greigite SUPPRESSED.
+"""Fig. 2 (B&W) — Fe-S-O control at 298.15 K with greigite SUPPRESSED.
 
-Same single-database engine as Fig. 6, but greigite is forbidden: the sulfide
+Same single-database engine as Figs. 5/6, but greigite is forbidden: the sulfide
 intermediate reverts to pyrrhotite and magnetite borders both pyrrhotite and
 pyrite (the classical topology). Reviewer B&W style: white fields, black
 boundary lines, in-field labels, native-S cap.
@@ -30,7 +30,7 @@ import bw_style as bw
 
 bw.apply()
 DB = str(TDB / "fes_o_greigite_v1.tdb")
-OUT = str(FIG / "fig05_feso_control.png")
+OUT = str(FIG / "Figure_2.png")
 db = Database(DB)
 T = 298.15
 RTLN10 = 8.31451 * T * np.log(10.0)

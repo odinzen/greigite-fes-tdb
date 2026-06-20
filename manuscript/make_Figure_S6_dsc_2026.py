@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fig. 10 (2026 re-measurement, B&W) — Simultaneous TG-DSC of bulk Fe3S4.
+"""Fig. S6 (2026 re-measurement, B&W) — Simultaneous TG-DSC of bulk Fe3S4.
 
 The new data taken six years after the 2020 DSC: blank-subtracted simultaneous
 TG-DSC (Setaram Labsys EVO, Ar), read from the v2 datasets in data_dsc/. Left
@@ -7,7 +7,7 @@ axis: DSC heat flow (mW, exo up), heating solid / cooling dashed. Right axis: TG
 mass (%, as exported) — the new information the 2026 run adds. Kelvin x-axis to
 match the paper; no in-image title (the caption lives in the manuscript).
 
-Supersedes make_fig10_dsctg.py (v1, 2020) for Fig 10 — see data_dsc/SOURCE.md.
+Companion to make_Figure_S4_dsc_2020.py (v1, 2020 DSC); see data_dsc/SOURCE.md.
 """
 
 import sys
@@ -27,7 +27,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "fig_tgdsc_2026.png")
+OUT = str(FIG / "Figure_S6.png")
 
 
 def load(fn, ncol):
