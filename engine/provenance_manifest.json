@@ -27,7 +27,7 @@
       "year": 2020,
       "venue": "Proc. Natl. Acad. Sci. (PNAS)",
       "url": "https://doi.org/10.1073/pnas.2017312117",
-      "kg": {
+      "metadata": {
         "corpus_id": 389,
         "tags": [
           "greigite",
@@ -53,7 +53,7 @@
       "year": 2022,
       "venue": "J. Chem. Thermodyn.",
       "url": "https://doi.org/10.1016/j.jct.2022.106836",
-      "kg": {
+      "metadata": {
         "corpus_id": 384,
         "tags": [
           "greigite",

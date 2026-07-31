@@ -21,7 +21,7 @@ I/O layout:
 - **Python 3.12**, via conda / miniforge (conda-forge channel). Any environment
   manager works; the commands below use conda.
 - **Network access on the first build** — the builders fetch the base Dilner
-  TDBs from NIMS TDBDB / Elsevier into `artifacts/tdb/`. Later runs are offline.
+  TDBs from TDBDB / Elsevier into `artifacts/tdb/`. Later runs are offline.
 - **Python packages** (installed in step 1): `pycalphad=0.11.1`, `numpy`, `scipy`,
   `matplotlib` for the core build + figures; `reportlab` only for the optional
   `md_to_pdf.py` step. No other services or databases.
@@ -47,7 +47,7 @@ conda activate greigite-fes-tdb
 
 The fetch step (`fetch_fes_tdbs.py` / the auto-fetch inside the builders) uses
 the self-contained, stdlib-only `tdbtools` package vendored here plus network
-access to NIMS TDBDB / Elsevier.
+access to TDBDB / Elsevier.
 
 ## 2. Core build path (fetch → build → validate → figures)
 

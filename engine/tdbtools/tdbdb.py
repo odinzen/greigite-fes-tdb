@@ -4,13 +4,11 @@ Queries the public TDBDB index (https://avdwgroup.engin.brown.edu/) for free
 literature TDB files. Returns structured records with author, year, paper DOI,
 TDB download URL, and the elements covered.
 
-This is the data source used for Phase 1.5 grafting (Path A) — finding
-existing solution-phase backbones to merge with our synthesised line compounds.
-Every record carries enough metadata to populate a `Provenance` block, so
-downstream uses (in the synthesis tool, in publications) can attribute the
-literature TDB properly.
+It provides existing solution-phase backbones to merge with the synthesised
+line compounds. Every record carries enough metadata to populate a `Provenance`
+block, so downstream uses can attribute the literature TDB properly.
 
-Like the Materials Project data source, this module supports an offline
+This module supports an offline
 fixture mode: when `TDBDB_FIXTURES` is set (or `use_fixtures()` called),
 queries read from `tests/fixtures/tdbdb_responses/*.json` instead of hitting
 the live API.
@@ -103,7 +101,7 @@ class TdbdbRecord:
 
 
 # ---------------------------------------------------------------------------
-# Fixture mode (mirrors data_sources/materials_project.py)
+# Fixture mode (offline replay of recorded API responses)
 # ---------------------------------------------------------------------------
 
 
@@ -178,7 +176,7 @@ def _live_query(elements: list[str]) -> list[dict]:
     query = ",".join(normalised)
     url = f"{TDBDB_BASE_URL}?element={urllib.parse.quote(query)}"
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    # TDBDB_BASE_URL is a literal HTTPS endpoint to tdbdb.nims.go.jp;
+    # TDBDB_BASE_URL is a literal HTTPS endpoint to avdwgroup.engin.brown.edu;
     # user input is URL-encoded into the query string only.
     with urllib.request.urlopen(req, timeout=15) as resp:  # nosec B310
         raw = resp.read().decode("utf-8").strip()
@@ -204,11 +202,11 @@ def record_fixture(elements: list[str], output_dir: Path | str) -> Path:
 
 
 # ---------------------------------------------------------------------------
-# TDB file fetch (Phase 1.5 / Slice 12)
+# TDB file fetch
 #
 # `search()` returns metadata; `fetch()` actually downloads the .tdb file the
-# record points at, with the same fixture-mode + cache-on-disk pattern that
-# JANAF uses for its pickle cache. Live downloads are gated on
+# record points at, with the same fixture-mode + on-disk cache pattern as
+# `search()`. Live downloads are gated on
 # `TDBDB_LIVE` exactly like `search()`.
 # ---------------------------------------------------------------------------
 
@@ -241,12 +239,12 @@ def _maybe_use_env_tdb_fixtures() -> None:
 def _open_with_ua(url: str, timeout: float = 30.0):
     """urllib open() with a browser User-Agent. Narrowly scoped to this module.
 
-    Mirrors janaf.py's `_NistUrllibShim` philosophy: never monkeypatch a
-    process-global opener; just build a one-off Request object with the UA we
-    need. Some upstream hosts (NIST, Elsevier) reject Python's default UA.
+    Never monkeypatch a process-global opener; just build a one-off Request
+    object with the UA we need. Some upstream hosts (NIST, Elsevier) reject
+    Python's default UA.
     """
     req = urllib.request.Request(url, headers={"User-Agent": _BROWSER_UA})
-    # URL comes from the TDBDB record we just fetched; it's a tdbdb.nims.go.jp
+    # URL comes from the TDBDB record we just fetched; it's an avdwgroup.engin.brown.edu
     # redirect target (TDB download endpoint), not user-controlled input.
     return urllib.request.urlopen(req, timeout=timeout)  # nosec B310
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Fetch the campaign's literature TDBs from the public NIMS TDBDB into artifacts/tdb/.
+"""Fetch the campaign's literature TDBs from the public TDBDB index into artifacts/tdb/.
 
 This is the *fetch* step of the build: the base databases are downloaded into
 ``artifacts/tdb/`` on first run (``artifacts/`` is gitignored).

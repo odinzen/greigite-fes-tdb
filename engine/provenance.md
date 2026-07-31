@@ -198,11 +198,11 @@ predominance sweep on the central/lo/hi variants and writes the boundary table t
 
 ## Provenance manifest (the campaign's machine-readable index)
 `provenance_manifest.json` is the single typed, provenance-tracked description of
-the campaign; `manifest.py` is the read API. Scripts (and agents) drive the whole
+the campaign; `manifest.py` is the read API. The build scripts drive the whole
 build from this one file:
 - `campaign` — name, description, chemical systems.
-- `papers[]` — reference entities (DOI, authors, year) + a `kg` block
-  (`corpus_id`, `tags`) for the metadata that's useful outside the DB.
+- `papers[]` — reference entities (DOI, authors, year) + a `metadata` block
+  (`corpus_id`, `tags`) for reference metadata useful outside the DB.
 - `artifacts[]` — typed nodes, each with a `provenance` block
   (`source`/`source_id`/`citation`/`url`/`method`):
   - `tdb_from_tdbdb` — a literature TDB to fetch (`itemid`, `url`, `dest`).

@@ -8,7 +8,7 @@ the recipe DAG that turns those into the derived TDBs and figures. The build
 scripts read from here instead of from ad-hoc files, so every number is
 auditable back to a typed source.
 
-This module is the accessor the scripts (and agents) use. Stdlib only.
+This module is the accessor the build scripts use. Stdlib only.
 
     from manifest import Manifest
     m = Manifest.load()
@@ -35,7 +35,7 @@ MANIFEST_PATH = HERE / "provenance_manifest.json"
 # --------------------------------------------------------------------------- #
 @dataclass(frozen=True)
 class Provenance:
-    """Where a datum came from + how to cite it (mirrors the KG Provenance block)."""
+    """Where a datum came from + how to cite it."""
 
     source: str
     source_id: str
@@ -67,7 +67,7 @@ class Paper:
     year: int | None
     venue: str | None
     url: str | None
-    kg: dict[str, Any]
+    metadata: dict[str, Any]
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
 
 
@@ -75,7 +75,7 @@ class Paper:
 class Measurement:
     """A measured physical quantity, associated with a Paper.
 
-    The new abstraction the KG needs: a typed value (value/unit/basis/
+    A typed value (value/unit/basis/
     uncertainty/conditions) with the measurement method, the in-paper locator,
     and a provenance block. `model` carries a fitted form (e.g. Debye-Einstein
     Cp coefficients) when the "measurement" is a model rather than a scalar.
@@ -180,7 +180,7 @@ class Manifest:
                 year=p.get("year"),
                 venue=p.get("venue"),
                 url=p.get("url"),
-                kg=p.get("kg", {}),
+                metadata=p.get("metadata", {}),
                 raw=p,
             )
 
@@ -287,7 +287,7 @@ class Manifest:
         if not dest.exists():
             raise RuntimeError(
                 f"fetch of {tid} ({art.itemid}) did not produce {dest}; "
-                "needs network access to NIMS TDBDB / Elsevier."
+                "needs network access to TDBDB / Elsevier."
             )
         return dest
 
