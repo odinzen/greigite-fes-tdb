@@ -2,6 +2,9 @@
 
 **Source:** Rickard, D., Roberts, A. P., & Navrotsky, A. (2024). *Sedimentary Greigite Formation.*
 American Journal of Science 324, 13. https://doi.org/10.2475/001c.121855
+
+*Written against an earlier draft. "Our Fig. 2 / Fig. 3" below are that draft's Fe–S–O and
+Fe–S diagrams, now Figs. S2 and 1; "Fig. 1" in item 1 is Rickard et al.'s own figure.*
 (local: `Downloads/121855-sedimentary-greigite-formation.pdf`, text layer extracted)
 
 ## What Rickard 2024 claims (with locations)

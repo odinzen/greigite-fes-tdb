@@ -253,7 +253,7 @@ def convert(md: Path) -> Path:
         topMargin=0.7 * inch,
         bottomMargin=0.7 * inch,
     )
-    doc.build(md_to_flowables(md.read_text()))
+    doc.build(md_to_flowables(md.read_text(encoding="utf-8")))
     return pdf
 
 

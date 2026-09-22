@@ -238,7 +238,7 @@ class Manifest:
     # ---- loading ---------------------------------------------------------- #
     @classmethod
     def load(cls, path: Path | str = MANIFEST_PATH) -> "Manifest":
-        return cls(json.loads(Path(path).read_text()))
+        return cls(json.loads(Path(path).read_text(encoding="utf-8")))
 
     # ---- accessors -------------------------------------------------------- #
     def paper(self, pid: str) -> Paper:

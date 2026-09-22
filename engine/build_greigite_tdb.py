@@ -266,7 +266,7 @@ $ ============================================================================
  PARAMETER G(GREIGITE,FE:S;0)  2.98150E+02  +3*GHSERFE#+4*GHSERSS#+{func_name}#;  {TDB_HI:.5E}  N REF0 !
 """
     text = base_text.rstrip() + "\n" + block
-    out.write_text(text)
+    out.write_text(text, encoding="utf-8")
     return hashlib.sha256(text.encode()).hexdigest()
 
 
@@ -289,7 +289,7 @@ def main() -> None:
 
     ensure_base()
     TDB_DIR.mkdir(parents=True, exist_ok=True)
-    base_text = BASE.read_text()
+    base_text = BASE.read_text(encoding="utf-8")
     db = Database(str(BASE))
     ev = make_ghser(db)
 
@@ -354,7 +354,7 @@ def main() -> None:
         }
     logger.info("")
 
-    REPORT.write_text(json.dumps(report, indent=2))
+    REPORT.write_text(json.dumps(report, indent=2), encoding="utf-8")
     logger.info(
         "wrote %d TDB variants -> %s + artifacts/build_report.json",
         len(variants),

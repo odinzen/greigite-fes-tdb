@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """Build the Fe-S-O greigite TDB (artifacts/tdb/fes_o_greigite_v1.tdb).
 
-This is the missing Fe-S-O builder. The four Fe-S-O figures
-(make_fig4_feso_control_bw, make_fig6_feso_bw, make_fig_predominance_split,
-make_fig3_engine) consume ``fes_o_greigite_v1.tdb``. This script fetches the
+This is the Fe-S-O builder. The Fe-S-O and Fe-O figure scripts
+(make_Figure_S2_feso_control, make_Figure_S4_feo, make_Figure_S5_predominance_300K,
+make_Figure_S6_predominance_600K) consume ``fes_o_greigite_v1.tdb``. This script fetches the
 Dilner-2017 base at build time and applies two mechanical transforms (no new
 CALPHAD modelling):
 
@@ -26,9 +26,9 @@ CALPHAD modelling):
 The repo therefore redistributes only our greigite + pyrite additions and this
 transform code, never Dilner's database file.
 
-Validation: the result parses cleanly under pycalphad. The boundary fugacities
-(native-S sat log f(S2) = -13.96; Fe/Fe3S4 = -51.0) are checked downstream by
-make_fig_predominance_split.py. Pass ``--verify <reference.tdb>`` to assert the
+Validation: the result parses cleanly under pycalphad. At 300 K it reproduces the
+manuscript's boundary fugacities (native-S saturation log f(S2) = -13.82; Fe/Fe3S4 =
+-50.7; Fe3S4/FeS2 = -20.3), computed downstream by make_Figure_S5_predominance_300K.py. Pass ``--verify <reference.tdb>`` to assert the
 build reproduces a known-good file byte-for-byte (used during development; the
 reference is not distributed).
 """
@@ -214,7 +214,7 @@ def main() -> int:
 
     # STEP 1
     clean_text = build_clean(src)
-    CLEAN_TDB.write_text(clean_text)
+    CLEAN_TDB.write_text(clean_text, encoding="utf-8")
     print(
         f"[1] dedupe: {CLEAN_TDB}  ({len(clean_text.encode('latin-1'))} B, "
         f"{clean_text.count(chr(10))} lines)"
@@ -230,9 +230,9 @@ def main() -> int:
             return 2
 
     # STEP 2
-    greigite_text = ensure_greigite_tdb().read_text()
+    greigite_text = ensure_greigite_tdb().read_text(encoding="utf-8")
     out_text = build_greigite_o(clean_text, greigite_text)
-    OUT_TDB.write_text(out_text)
+    OUT_TDB.write_text(out_text, encoding="utf-8")
     print(
         f"[2] graft:  {OUT_TDB}  ({len(out_text.encode('latin-1'))} B, "
         f"{out_text.count(chr(10))} lines)"

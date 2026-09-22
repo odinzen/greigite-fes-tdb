@@ -1,4 +1,4 @@
-"""Kinetic falsification figure: solid-state S diffusion vs the observed conversion.
+"""Fig. 4 — kinetic falsification: solid-state S diffusion vs the observed conversion.
 
 Plots the solid-state sulfur-diffusion conversion time of a one-micrometre greigite crystal against
 the observed mackinawite->greigite->pyrite transformation times (Hunger & Benning 2007, minutes to
@@ -10,7 +10,7 @@ mismatch against the measured transformation, rules out bulk solid-state diffusi
 solution-mediated, oxidant-limited pathway.
 
 No title or finding text is baked onto the image (it belongs in the manuscript caption).
-Writes artifacts/figures/fig_kinetics_falsification.png.
+Writes artifacts/figures/Figure_4.png.
 """
 import csv, pathlib, numpy as np, matplotlib
 matplotlib.use("Agg")
@@ -62,6 +62,6 @@ ax.set_ylabel("Greigite → pyrite conversion time (years)", fontsize=14)
 ax.set_xlim(0, 250); ax.set_ylim(1e-6, 1e22)
 ax.legend(fontsize=9.5, loc="upper right", framealpha=0.95)
 fig.tight_layout()
-out = ART / "fig_kinetics_falsification.png"
+out = ART / "Figure_4.png"
 fig.savefig(out, dpi=300)
 print("saved", out)

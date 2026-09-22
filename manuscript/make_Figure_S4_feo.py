@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""Fig. S3 (B&W) — COMPUTED Fe-O predominance vs temperature, 300-600 K.
+"""Fig. S4 (B&W) — COMPUTED Fe-O predominance vs temperature, 300-600 K.
 
 Single-database engine. The Fe-O stability diagram (log f(O2) vs T): metallic
 iron, the Fe(II,III) spinel magnetite (Fe3O4), and hematite (Fe2O3). This is the
-oxide companion to the Fe-S diagram (manuscript Fig. 3) — both computed from the
+oxide companion to the Fe-S diagram (manuscript Fig. 1) — both computed from the
 same assembled database, so greigite (Fe3S4) is the sulfide analogue of magnetite.
 White fields, black boundaries, medoid labels, no in-image title.
 """
@@ -31,7 +31,7 @@ import bw_style as bw
 
 bw.apply()
 DB = str(TDB / "fes_o_greigite_v1.tdb")
-OUT = str(FIG / "Figure_S3.png")
+OUT = str(FIG / "Figure_S4.png")
 db = Database(DB)
 
 

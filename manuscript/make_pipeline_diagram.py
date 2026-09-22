@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Fig. S1 - the four-step reproducible pipeline that produces this paper's
+"""Pipeline schematic (not in the current manuscript) - the four-step reproducible pipeline that produces this paper's
 databases and figures.
 
 The Gibbs energy function (TDB format) is the common data currency passed
@@ -24,7 +24,7 @@ ROOT = HERE.parent  # = repo root
 FIG = ROOT / "artifacts" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 
-OUT = str(FIG / "Figure_S1.png")
+OUT = str(FIG / "pipeline_diagram.png")
 
 EN = "–"  # en dash
 S = EN + "S"  # "–S"
@@ -83,7 +83,7 @@ ax.axis("off")
 ax.text(
     48,
     97.5,
-    "Fig. 1 " + EN + " The four-step reproducible pipeline",
+    "The four-step reproducible pipeline",
     ha="center",
     va="top",
     fontsize=16,

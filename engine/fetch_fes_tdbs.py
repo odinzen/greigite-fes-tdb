@@ -58,7 +58,7 @@ def main() -> None:
             entry["fetch"] = {"ok": False, "error": f"{type(exc).__name__}: {exc}"}
         report["records"].append(entry)
 
-    (ARTIFACTS / "fetch_report.json").write_text(json.dumps(report, indent=2))
+    (ARTIFACTS / "fetch_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))
 
 

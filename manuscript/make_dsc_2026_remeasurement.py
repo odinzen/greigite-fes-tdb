@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fig. S6 (2026 re-measurement, B&W) — Simultaneous TG-DSC of bulk Fe3S4.
+"""2026 re-measurement (B&W, not in the current manuscript) — Simultaneous TG-DSC of bulk Fe3S4.
 
 The new data taken six years after the 2020 DSC: blank-subtracted simultaneous
 TG-DSC (Setaram Labsys EVO, Ar), read from the v2 datasets in data_dsc/. Left
@@ -7,7 +7,7 @@ axis: DSC heat flow (mW, exo up), heating solid / cooling dashed. Right axis: TG
 mass (%, as exported) — the new information the 2026 run adds. Kelvin x-axis to
 match the paper; no in-image title (the caption lives in the manuscript).
 
-Companion to make_Figure_S4_dsc_2020.py (v1, 2020 DSC); see data_dsc/SOURCE.md.
+Companion to make_Figure_S7_dsc.py (Fig. S7, the 2020 run); see data_dsc/SOURCE.md.
 """
 
 import sys
@@ -27,7 +27,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "Figure_S6.png")
+OUT = str(FIG / "dsc_2026_remeasurement.png")
 
 
 def load(fn, ncol):
@@ -68,16 +68,6 @@ axL.set_xlim(min(Th.min(), Tc.min()), max(Th.max(), Tc.max()))
 axR.set_ylabel("TG mass, %", color="0.3")
 axR.tick_params(axis="y", colors="0.3")
 
-axL.text(
-    0.03,
-    0.06,
-    "Fe$_3$S$_4$ — bulk (2026, blank-subtracted)",
-    transform=axL.transAxes,
-    fontsize=10.5,
-    fontweight="bold",
-    va="bottom",
-    bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", lw=1.0),
-)
 axL.legend(
     handles=[lh, lc, lt],
     loc="upper right",

@@ -41,7 +41,7 @@ def dump(path: Path) -> None:
     print("\n" + "#" * 78)
     print("#", path.name)
     print("#" * 78)
-    raw = path.read_text(errors="replace")
+    raw = path.read_text(encoding="utf-8", errors="replace")
     stmts = list(statements(raw))
 
     print("\n--- FUNCTIONs of interest ---")

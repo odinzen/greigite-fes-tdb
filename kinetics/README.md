@@ -19,7 +19,7 @@ available under license or collaboration by request to the corresponding author.
 
 - `kinetics_conversion_time.csv` — conversion time (years) vs temperature (°C), nominal and the
   ±1σ diffusion-coefficient band.
-- `make_kinetics_figure.py` — renders `artifacts/figures/fig_kinetics_falsification.png` from the
+- `make_kinetics_figure.py` — renders `artifacts/figures/Figure_4.png` from the
   CSV against the observed transformation points.
 
 ```bash

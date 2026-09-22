@@ -34,7 +34,7 @@ def banner(s: str) -> None:
 def inspect(path: Path) -> None:
     banner(f"FILE: {path.name}  ({path.stat().st_size} bytes)")
 
-    raw = path.read_text(errors="replace")
+    raw = path.read_text(encoding="utf-8", errors="replace")
 
     # --- parse check -------------------------------------------------------
     try:

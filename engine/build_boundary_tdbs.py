@@ -125,12 +125,12 @@ def main():
     only = sys.argv[1] if len(sys.argv) > 1 else None  # optional case-name filter
     TDB_DIR.mkdir(parents=True, exist_ok=True)
     rep_path = ROOT / "artifacts" / "boundary_cases_report.json"
-    report = _json.loads(rep_path.read_text()) if rep_path.exists() else {}
+    report = _json.loads(rep_path.read_text(encoding="utf-8")) if rep_path.exists() else {}
     print("Boundary-case TDB build (all-compound 1-sigma envelope)\n" + "=" * 58)
     for out_name, c in CASES.items():
         if only and only not in out_name:
             continue
-        src = (TDB_DIR / c["src"]).read_text()
+        src = (TDB_DIR / c["src"]).read_text(encoding="utf-8")
         txt = _shift_token(src, PYRITE_TOKEN, c["d_pyrite"])
         txt = _shift_token(
             txt, GFES_TOKEN, c["d_pyrro"] if "d_pyrro" in c else c["d_pyrrho"]
@@ -143,7 +143,7 @@ def main():
         )
         txt = banner + txt
         out = TDB_DIR / out_name
-        out.write_text(txt)
+        out.write_text(txt, encoding="utf-8")
         sha = hashlib.sha256(txt.encode()).hexdigest()
         print(f"\n[{out_name}]  {c['tag']}")
         print(
@@ -166,7 +166,7 @@ def main():
                 for p, d in fields.items()
             },
         }
-        rep_path.write_text(json.dumps(report, indent=2))  # persist per case
+        rep_path.write_text(json.dumps(report, indent=2), encoding="utf-8")  # persist per case
     print(
         "\nwrote artifacts/boundary_cases_report.json + the boundary TDB(s) in artifacts/tdb/"
     )

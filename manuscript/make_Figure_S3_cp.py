@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fig. S2 (B&W) — Greigite heat capacity, Debye-Einstein fit (Shumway 2022).
+"""Fig. S3 (B&W) — Greigite heat capacity, Debye-Einstein fit (Shumway 2022).
 
 Reconstructs the manuscript Cp figure in black and white from the published
 three-term Debye-Einstein fit in greigite_cp.py (per FeS1.33). Single black
@@ -23,7 +23,7 @@ import bw_style as bw
 import greigite_cp as g
 
 bw.apply()
-OUT = str(FIG / "Figure_S2.png")
+OUT = str(FIG / "Figure_S3.png")
 
 T = np.linspace(5.0, 600.0, 600)
 cp = g.cp_debye_einstein(T)

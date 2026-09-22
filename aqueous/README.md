@@ -16,7 +16,7 @@ pip install phreeqpython numpy scipy matplotlib
 
 python aqueous/derive_greigite_logk.py     # log_K derivation + pyrite verifier (stdlib only)
 python aqueous/build_ehph_diagram.py       # -> artifacts/aqueous/ehph_fields.npz
-python aqueous/make_ehph_figure.py         # -> artifacts/figures/fig_ehph_greigite.png
+python aqueous/make_ehph_figure.py         # -> artifacts/figures/Figure_3.png
 ```
 
 `build_ehph_diagram.py` uses phreeqpython's bundled `phreeqc.dat` and grafts on the Fe-S(-O) phases

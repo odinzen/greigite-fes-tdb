@@ -36,39 +36,50 @@ the campaign:
 ```bash
 python engine/build_fes_o_tdb.py         # -> artifacts/tdb/fes_o_greigite_v1.tdb  (Fe–S–O)
 python engine/build_boundary_tdbs.py     # -> artifacts/tdb/fes_greigite_boundary_{lower,upper}.tdb
+python engine/validate_fes_engine.py     # predominance sweep -> artifacts/fes_engine_boundaries.json
 python engine/validate_greigite.py       # parse + equilibrium sanity checks
 ```
+
+`validate_fes_engine.py` is required before the figures: Figs. 1, 2 and S1 read the
+boundary curves it writes.
 
 ## Figures
 
 The manuscript figures read the built databases from `artifacts/tdb/` and write
 PNGs to `artifacts/figures/`. Build the databases first (above), then regenerate
-every published figure with one command:
+every manuscript figure with one command (Fig. 3 also needs `phreeqpython`; see
+below):
 
 ```bash
 python manuscript/make_all_figures.py    # -> artifacts/figures/Figure_*.png
 ```
 
 Each figure also has its own script (resolving its own paths, so the working
-directory doesn't matter), named for the published figure it produces:
+directory doesn't matter), named for the manuscript figure it produces:
 
-| Published figure | Script | Output PNG |
+| Manuscript figure | Script | Output PNG |
 |---|---|---|
-| Fig. 1 & Fig. 3 | `manuscript/make_Figure_1_and_3_validation.py` | `Figure_1.png`, `Figure_3.png` |
-| Fig. 2 | `manuscript/make_Figure_2_feso_control.py` | `Figure_2.png` |
-| Fig. 4 | `manuscript/make_Figure_4_errorfield.py` | `Figure_4.png` |
-| Fig. 5A/5B | `manuscript/make_Figure_5_predominance.py` | `Figure_5A.png`, `Figure_5B.png` |
-| Fig. 6A/6B | `manuscript/make_Figure_6_predominance_600K.py` | `Figure_6A.png`, `Figure_6B.png` |
-| Fig. S1 | `manuscript/make_Figure_S1_pipeline.py` | `Figure_S1.png` |
-| Fig. S2 | `manuscript/make_Figure_S2_cp.py` | `Figure_S2.png` |
-| Fig. S3 | `manuscript/make_Figure_S3_feo.py` | `Figure_S3.png` |
-| Fig. S4 | `manuscript/make_Figure_S4_dsc_2020.py` | `Figure_S4.png` |
-| Fig. S6 | `manuscript/make_Figure_S6_dsc_2026.py` | `Figure_S6.png` |
+| Fig. 1 & Fig. S1 | `manuscript/make_Figure_1_and_S1_fes.py` | `Figure_1.png`, `Figure_S1.png` |
+| Fig. 2 | `manuscript/make_Figure_2_errorfield.py` | `Figure_2.png` |
+| Fig. 3 | `aqueous/make_ehph_figure.py` (after `aqueous/build_ehph_diagram.py`) | `Figure_3.png` |
+| Fig. 4 | `kinetics/make_kinetics_figure.py` | `Figure_4.png` |
+| Fig. S2 | `manuscript/make_Figure_S2_feso_control.py` | `Figure_S2.png` |
+| Fig. S3 | `manuscript/make_Figure_S3_cp.py` | `Figure_S3.png` |
+| Fig. S4 | `manuscript/make_Figure_S4_feo.py` | `Figure_S4.png` |
+| Fig. S5A/S5B | `manuscript/make_Figure_S5_predominance_300K.py` | `Figure_S5A.png`, `Figure_S5B.png` |
+| Fig. S6A/S6B | `manuscript/make_Figure_S6_predominance_600K.py` | `Figure_S6A.png`, `Figure_S6B.png` |
+| Fig. S7 | `manuscript/make_Figure_S7_dsc.py` | `Figure_S7.png` |
 
-Figures S5 and S7 (powder XRD of the post-DSC products) were produced in external
-software from raw diffraction data not included in this repository. The
-`manuscript/explore_*.py` scripts are exploratory/superseded drafts, not part of
-the published figure set.
+The anhydrous Fe–S–O diagrams (Figs. S2, S5) are computed at 300 K, the temperature of
+the manuscript's boundary-fugacity tables. Fig. S7 re-plots the 2020 DSC run from the raw
+instrument export (heat flow in µV); the manuscript panel shows the same run as plotted by
+the instrument software (calibrated mW). Fig. S8 (powder XRD of the post-DSC product) was
+produced in external software from raw diffraction data not included in this repository.
+
+Two further scripts are kept for reference but are not in the current manuscript:
+`manuscript/make_dsc_2026_remeasurement.py` (the 2026 DSC re-measurement) and
+`manuscript/make_pipeline_diagram.py` (the build-pipeline schematic). The
+`manuscript/explore_*.py` scripts are exploratory/superseded drafts.
 
 ## Porewater and kinetics
 
@@ -80,8 +91,8 @@ pip install phreeqpython numpy scipy matplotlib
 
 python aqueous/derive_greigite_logk.py   # greigite dissolution log_K (-68.95; ±1σ -65.12/-72.79)
 python aqueous/build_ehph_diagram.py     # PHREEQC Eh-pH predominance -> artifacts/aqueous/
-python aqueous/make_ehph_figure.py       # -> artifacts/figures/fig_ehph_greigite.png
-python kinetics/make_kinetics_figure.py  # -> artifacts/figures/fig_kinetics_falsification.png
+python aqueous/make_ehph_figure.py       # -> artifacts/figures/Figure_3.png
+python kinetics/make_kinetics_figure.py  # -> artifacts/figures/Figure_4.png
 ```
 
 The greigite dissolution constant is derived from the same measured thermochemistry as the CALPHAD
@@ -118,7 +129,7 @@ back to a cited source. Details: [`engine/provenance.md`](engine/provenance.md).
 - **`engine/`** — the provenance manifest + its reader, the TDB build/validation
   scripts, and the vendored TDBDB fetch helper.
 - **`manuscript/`** — figure-generation scripts, DSC/XRD source data
-  (`data_dsc/`), and the journal `submission/` bundle.
+  (`data_dsc/`), and the manuscript companion note (`submission/`).
 - **`aqueous/`** — PHREEQC porewater Eh–pH diagram and the greigite dissolution log_K derivation.
 - **`kinetics/`** — tabulated solid-state diffusion conversion times and the falsification figure.
 - **`artifacts/`** — all generated output (gitignored).

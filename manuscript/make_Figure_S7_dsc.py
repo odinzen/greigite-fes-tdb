@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """TG-DSC of bulk greigite (2020 run, B&W) — heating to 600 C.
 
-The original 2020 simultaneous TG-DSC (manuscript Fig. S4). The 2026 re-measurement
-(make_Figure_S6_dsc_2026.py, Fig. S6) is its companion; both kept for reference.
+The original 2020 simultaneous TG-DSC, the run shown in manuscript Fig. S7 (the manuscript
+panel is the instrument software's calibrated-mW plot; this re-plots the raw export). The
+2026 re-measurement (make_dsc_2026_remeasurement.py, not in the current manuscript) is its
+companion.
 Re-plotted from the raw instrument export in data_dsc/. Left axis: DSC heat flow
 (exo up). Right axis: TG mass change (%, relative to the 15.57 mg initial mass;
 the startup transient < ~60 s is trimmed). Heating solid, cooling dashed. No
@@ -27,7 +29,7 @@ sys.path.insert(0, str(HERE))
 import bw_style as bw
 
 bw.apply()
-OUT = str(FIG / "Figure_S4.png")
+OUT = str(FIG / "Figure_S7.png")
 M0 = 15.57  # mg, initial sample mass (from the instrument header)
 
 
@@ -73,7 +75,7 @@ TGh_pct = (TGh - base) / M0 * 100.0
 fig, axL = plt.subplots(figsize=(8.2, 5.6))
 axR = axL.twinx()
 
-# Kelvin x-axis to match the paper (and make_Figure_S6_dsc_2026.py). The masking and
+# Kelvin x-axis to match the paper (and make_dsc_2026_remeasurement.py). The masking and
 # baseline logic above stays in °C; only the plotted axis is converted.
 K = 273.15
 
@@ -94,17 +96,6 @@ axR.set_ylabel("TG mass change, %", color="0.3")
 axR.tick_params(axis="y", colors="0.3")
 
 axL.axvline(540 + K, color="0.6", lw=0.8, ls=":")
-axL.text(
-    0.03,
-    0.05,
-    "Fe$_3$S$_4$ — bulk (2020)",
-    transform=axL.transAxes,
-    fontsize=11,
-    fontweight="bold",
-    va="bottom",
-    bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", lw=1.0),
-)
-
 axL.legend(
     handles=[lh, lc, lt],
     loc="upper left",

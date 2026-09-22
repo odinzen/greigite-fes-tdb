@@ -214,7 +214,7 @@ def main():
 
     out_json = ROOT / "artifacts" / "fes_engine_boundaries.json"
     out_json.parent.mkdir(parents=True, exist_ok=True)
-    out_json.write_text(json.dumps(results, indent=2))
+    out_json.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"wrote {out_json}")
     print(
         "\nDONE — paste the printed block above; outputs are in artifacts/ + engine/."

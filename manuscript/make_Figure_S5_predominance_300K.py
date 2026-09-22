@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-"""Fig. 2 (B&W) — Fe-S-O control at 298.15 K with greigite SUPPRESSED.
+"""Fig. S5 (A/B, B&W, single-panel) — Fe-S-O predominance at 300 K, split.
 
-Same single-database engine as Figs. 5/6, but greigite is forbidden: the sulfide
-intermediate reverts to pyrrhotite and magnetite borders both pyrrhotite and
-pyrite (the classical topology). Reviewer B&W style: white fields, black
-boundary lines, in-field labels, native-S cap.
+Fig. S5A: central dHf (greigite stable, borders the oxides).
+Fig. S5B: greigite +1 sigma (pyrrhotite appears; pyrite borders hematite).
+
+Single-database engine (one TDB). White fields, black boundary lines, in-field
+medoid labels, native-S cap. No footnote on the figure (text goes in caption).
 """
 
 import sys
@@ -30,9 +31,8 @@ import bw_style as bw
 
 bw.apply()
 DB = str(TDB / "fes_o_greigite_v1.tdb")
-OUT = str(FIG / "Figure_2.png")
 db = Database(DB)
-T = 298.15
+T = 300.0  # the manuscript diagrams and Tables 1-2 are at 300 K
 RTLN10 = 8.31451 * T * np.log(10.0)
 
 
@@ -62,10 +62,10 @@ def minG_perFe(phase, target, atoms_per_Fe, tol=0.02):
     return gm[m].min() * atoms_per_Fe
 
 
-# greigite ("Gr") intentionally OMITTED (suppressed control)
 SPEC = {
     "Fe": ("BCC_A2", {"FE": 1.0}, 1.0, 0.0, 0.0),
     "Po": ("PYRRHOTITE", {"FE": 0.5, "S": 0.5}, 2.0, 0.5, 0.0),
+    "Gr": ("GREIGITE", {"FE": 3 / 7, "S": 4 / 7}, 7 / 3, 2 / 3, 0.0),
     "FeS2": ("PYRITE", {"FE": 1 / 3, "S": 2 / 3}, 3.0, 1.0, 0.0),
     "Fe3O4": ("SPINEL", {"FE": 3 / 7, "O": 4 / 7}, 7 / 3, 0.0, 2 / 3),
     "Fe2O3": ("CORUNDUM", {"FE": 2 / 5, "O": 3 / 5}, 5 / 2, 0.0, 3 / 4),
@@ -84,10 +84,11 @@ for k, (ph, tgt, apf, ns, no) in SPEC.items():
     nS2[k] = ns
     nO2[k] = no
 
-PHASES = ["Fe", "Po", "FeS2", "Fe3O4", "Fe2O3", "FeSO4", "Fe2(SO4)3"]
+PHASES = ["Fe", "Po", "Gr", "FeS2", "Fe3O4", "Fe2O3", "FeSO4", "Fe2(SO4)3"]
 LAB = {
     "Fe": "Fe",
     "Po": "Fe$_{1-x}$S\npyrrhotite",
+    "Gr": "Fe$_3$S$_4$\ngreigite",
     "FeS2": "FeS$_2$\npyrite",
     "Fe3O4": "Fe$_3$O$_4$\nmagnetite",
     "Fe2O3": "Fe$_2$O$_3$\nhematite",
@@ -101,49 +102,65 @@ OO, SS = np.meshgrid(O, S)
 muS2 = G_S2 + RTLN10 * SS
 muO2 = G_O2 + RTLN10 * OO
 
-Phi = np.zeros((len(PHASES),) + OO.shape)
-for i, p in enumerate(PHASES):
-    Phi[i] = Gpf[p] - nS2[p] * muS2 - nO2[p] * muO2
-field = np.argmin(Phi, axis=0)
-field = np.where(SS > LFS2_SAT, len(PHASES), field)
 
-fig, ax = plt.subplots(figsize=(9.5, 7.2))
-ax.contour(
-    OO,
-    SS,
-    field,
-    levels=np.arange(0.5, len(PHASES) + 0.5, 1),
-    colors="black",
-    linewidths=1.1,
+def make(dGr, dPo, title, out):
+    Phi = np.zeros((len(PHASES),) + OO.shape)
+    for i, p in enumerate(PHASES):
+        g = Gpf[p] + (dGr if p == "Gr" else dPo if p == "Po" else 0.0)
+        Phi[i] = g - nS2[p] * muS2 - nO2[p] * muO2
+    field = np.argmin(Phi, axis=0)
+    field = np.where(SS > LFS2_SAT, len(PHASES), field)
+    fig, ax = plt.subplots(figsize=(8.2, 7.0))
+    ax.contour(
+        OO,
+        SS,
+        field,
+        levels=np.arange(0.5, len(PHASES) + 0.5, 1),
+        colors="black",
+        linewidths=1.1,
+    )
+    for i, p in enumerate(PHASES):
+        mk = field == i
+        if mk.sum() > 300:
+            cx, cy = OO[mk].mean(), SS[mk].mean()
+            j = np.argmin((OO[mk] - cx) ** 2 + (SS[mk] - cy) ** 2)
+            ax.text(
+                OO[mk][j],
+                SS[mk][j],
+                LAB[p],
+                ha="center",
+                va="center",
+                fontsize=11.5,
+                fontweight="bold",
+            )
+    ax.axhline(LFS2_SAT, color="black", ls="--", lw=1.4)
+    ax.text(
+        -60,
+        LFS2_SAT / 2.0,
+        "native S  (S$_2$ saturation, log $f$(S$_2$) = %.2f)" % LFS2_SAT,
+        ha="center",
+        va="center",
+        fontsize=10,
+        fontweight="bold",
+    )
+    ax.set_xlabel("log $f$(O$_2$), bar")
+    ax.set_ylabel("log $f$(S$_2$), bar")
+    ax.set_xlim(-120, 0)
+    ax.set_ylim(-60, 0)
+    fig.tight_layout()
+    fig.savefig(out, dpi=190, bbox_inches="tight")
+    print("wrote", out)
+
+
+make(
+    0.0,
+    0.0,
+    "Fig. S5A — Fe–S–O predominance, 300 K, central ΔH$_f$ (greigite stable)",
+    str(FIG / "Figure_S5A.png"),
 )
-for i, p in enumerate(PHASES):
-    mk = field == i
-    if mk.sum() > 300:
-        cx, cy = OO[mk].mean(), SS[mk].mean()
-        j = np.argmin((OO[mk] - cx) ** 2 + (SS[mk] - cy) ** 2)
-        ax.text(
-            OO[mk][j],
-            SS[mk][j],
-            LAB[p],
-            ha="center",
-            va="center",
-            fontsize=11,
-            fontweight="bold",
-        )
-ax.axhline(LFS2_SAT, color="black", ls="--", lw=1.4)
-ax.text(
-    -60,
-    LFS2_SAT / 2.0,
-    "native S  (S$_2$ saturation, log $f$(S$_2$) = %.2f)" % LFS2_SAT,
-    ha="center",
-    va="center",
-    fontsize=10,
-    fontweight="bold",
+make(
+    7300.0,
+    -3500.0,
+    "Fig. S5B — Fe–S–O predominance, 300 K, greigite +1σ (pyrrhotite appears)",
+    str(FIG / "Figure_S5B.png"),
 )
-ax.set_xlabel("log $f$(O$_2$), bar")
-ax.set_ylabel("log $f$(S$_2$), bar")
-ax.set_xlim(-120, 0)
-ax.set_ylim(-60, 0)
-fig.tight_layout(rect=[0, 0.04, 1, 1])
-fig.savefig(OUT, dpi=180, bbox_inches="tight")
-print("wrote", OUT)

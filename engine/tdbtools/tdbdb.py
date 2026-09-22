@@ -155,7 +155,7 @@ def search(elements: list[str]) -> list[TdbdbRecord]:
         path = _fixture_path(elements)
         if not path.exists():
             return []
-        raw_list = json.loads(path.read_text())
+        raw_list = json.loads(path.read_text(encoding="utf-8"))
     else:
         raw_list = _live_query(elements)
 
@@ -197,7 +197,7 @@ def record_fixture(elements: list[str], output_dir: Path | str) -> Path:
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"tdbdb_{_chemsys_key(elements)}.json"
-    path.write_text(json.dumps(raw_list, indent=2))
+    path.write_text(json.dumps(raw_list, indent=2), encoding="utf-8")
     return path
 
 

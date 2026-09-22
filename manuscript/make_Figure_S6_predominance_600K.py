@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-"""Fig. 6 (B&W, single-panel pair) — Fe-S-O predominance at 600 K.
+"""Fig. S6 (B&W, single-panel pair) — Fe-S-O predominance at 600 K.
 
-Companion to the 300 K split (make_Figure_5_predominance.py, Fig. 5A/5B). Same single TDB, same grand-potential construction, T = 600 K.
-Two outputs (the manuscript stacks them as Fig. 6A / 6B):
-  Figure_6A.png      central dHf (greigite stable, narrower field)
-  Figure_6B.png   greigite +1 sigma (least-stable bound)
+Companion to the 300 K split (make_Figure_S5_predominance_300K.py, Fig. S5A/S5B). Same single TDB, same grand-potential construction, T = 600 K.
+Two outputs (the manuscript stacks them as Fig. S6A / S6B):
+  Figure_S6A.png     central dHf (greigite stable, narrower field)
+  Figure_S6B.png  greigite +1 sigma (least-stable bound)
 Per-Fe enthalpy offsets are temperature-independent, so the +1sigma shifts
 (greigite +7300, pyrrhotite -3500 J/mol-Fe) carry over from the 300 K case.
 No in-image title (the caption lives in the manuscript).
@@ -157,8 +157,8 @@ def make(dGr, dPo, out):
 
 
 print("T=600 K | log f(S2) native-S sat = %.2f" % LFS2_SAT)
-make(0.0, 0.0, str(FIG / "Figure_6A.png"))
-make(7300.0, -3500.0, str(FIG / "Figure_6B.png"))
+make(0.0, 0.0, str(FIG / "Figure_S6A.png"))
+make(7300.0, -3500.0, str(FIG / "Figure_S6B.png"))
 
 
 def boundary(a, b):

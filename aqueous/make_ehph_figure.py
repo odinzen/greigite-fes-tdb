@@ -1,8 +1,8 @@
-"""Render the porewater Eh-pH stability diagram from artifacts/aqueous/ehph_fields.npz.
+"""Fig. 3 — render the porewater Eh-pH stability diagram from artifacts/aqueous/ehph_fields.npz.
 
 Greyscale house style; greigite is the hero phase (mid grey + hatch + bold outline) with its +/-1
 sigma range shaded. No title or caption is baked onto the image (it belongs in the manuscript
-caption); axis labels only. Writes artifacts/figures/fig_ehph_greigite.png.
+caption); axis labels only. Writes artifacts/figures/Figure_3.png.
 """
 import numpy as np, matplotlib, pathlib
 matplotlib.use("Agg")
@@ -90,6 +90,6 @@ ax.legend(handles=handles, fontsize=9.5, loc="upper right", framealpha=0.95)
 ax.set_xlim(pH.min(), pH.max())
 ax.set_ylim(Eh.min(), Eh.max())
 fig.tight_layout()
-out = ART / "figures" / "fig_ehph_greigite.png"
+out = ART / "figures" / "Figure_3.png"
 fig.savefig(out, dpi=320)
 print("saved", out)

@@ -72,15 +72,19 @@ python engine/build_fes_o_tdb.py
 #     (+ writes artifacts/boundary_cases_report.json).
 python engine/build_boundary_tdbs.py
 
-# (d) checks (optional but recommended)
+# (d) Fe-S predominance sweep. REQUIRED before the figures: Figs. 1, 2 and S1
+#     read the boundary curves it writes.
 python engine/validate_fes_engine.py    # predominance sweep -> artifacts/fes_engine_boundaries.json
                                          #   + artifacts/figures/fes_engine_diagram.png
+
+# (d') further checks (optional but recommended)
 python engine/consistency_greigite.py    # Dilner-basis stability sigma-distance -> artifacts/
 python engine/validate_greigite.py       # parse + equilibrium sanity
 
 # (e) manuscript figures (read TDBs from artifacts/tdb/, engine JSONs from
 #     engine/ + artifacts/, write PNGs to artifacts/figures/). One command runs
-#     all published figures (Fig 1-6, S1-S6 -> artifacts/figures/Figure_*.png):
+#     every manuscript figure (Fig. 1-4, S1-S7 -> artifacts/figures/Figure_*.png;
+#     Fig. 3 needs phreeqpython, see aqueous/README.md):
 python manuscript/make_all_figures.py
 #     (or run an individual manuscript/make_Figure_*.py script)
 ```
