@@ -1,12 +1,20 @@
 # greigite-fes-tdb
 
-Reproducible CALPHAD thermodynamic databases for **greigite (Fe₃S₄)** in the
-Fe–S and Fe–S–O systems — the scripts that build them and the figures for the
-accompanying manuscript.
+Reproducible computational basis for the **greigite (Fe₃S₄)** stability work, in three parts:
 
-No database files are committed: a published CALPHAD base is fetched and the
-greigite databases are built from a small set of cited measured values on first
-run.
+- **Thermodynamics** — CALPHAD databases for the Fe–S and Fe–S–O systems and the anhydrous
+  predominance figures (`engine/`, `manuscript/`). Greigite enters as a stable phase built from the
+  measured calorimetric enthalpy and entropy.
+- **Porewater** — the aqueous Eh–pH stability diagram computed with PHREEQC (`aqueous/`), which
+  places greigite's equilibrium field in reducing, near-neutral to alkaline sediment porewater and
+  carries the calorimetric uncertainty as a ±1σ band.
+- **Kinetics** — the solid-state diffusion falsification (`kinetics/`): bulk sulfur diffusion cannot
+  convert greigite at diagenetic temperature, so the observed conversion to pyrite is
+  solution-mediated and gated by porewater oxidant supply.
+
+No database or Word files are committed: a published CALPHAD base is fetched and the greigite
+databases are built from a small set of cited measured values on first run; everything generated
+lands in the gitignored `artifacts/` tree.
 
 ## Quick start
 
@@ -62,6 +70,27 @@ software from raw diffraction data not included in this repository. The
 `manuscript/explore_*.py` scripts are exploratory/superseded drafts, not part of
 the published figure set.
 
+## Porewater and kinetics
+
+The aqueous and kinetic results sit alongside the CALPHAD databases (details in each folder's
+README):
+
+```bash
+pip install phreeqpython numpy scipy matplotlib
+
+python aqueous/derive_greigite_logk.py   # greigite dissolution log_K (-68.95; ±1σ -65.12/-72.79)
+python aqueous/build_ehph_diagram.py     # PHREEQC Eh-pH predominance -> artifacts/aqueous/
+python aqueous/make_ehph_figure.py       # -> artifacts/figures/fig_ehph_greigite.png
+python kinetics/make_kinetics_figure.py  # -> artifacts/figures/fig_kinetics_falsification.png
+```
+
+The greigite dissolution constant is derived from the same measured thermochemistry as the CALPHAD
+databases, on a database-consistent aqueous reference, and cross-checked by reproducing the
+reference pyrite constant to within 0.04 log units
+([`aqueous/LOGK_DERIVATION.md`](aqueous/LOGK_DERIVATION.md)). The kinetic conversion times were
+computed with the proprietary Odinzen equilibrium engine, which is not included; the tabulated
+result is ([`kinetics/README.md`](kinetics/README.md)).
+
 ## What you get
 
 Everything lands in the gitignored `artifacts/` tree:
@@ -90,6 +119,8 @@ back to a cited source. Details: [`engine/provenance.md`](engine/provenance.md).
   scripts, and the vendored TDBDB fetch helper.
 - **`manuscript/`** — figure-generation scripts, DSC/XRD source data
   (`data_dsc/`), and the journal `submission/` bundle.
+- **`aqueous/`** — PHREEQC porewater Eh–pH diagram and the greigite dissolution log_K derivation.
+- **`kinetics/`** — tabulated solid-state diffusion conversion times and the falsification figure.
 - **`artifacts/`** — all generated output (gitignored).
 
 ## Data sources & copyright
@@ -105,10 +136,11 @@ locally.
 
 Dual-licensed by component:
 
-- **Code** (the `engine/` and `manuscript/` scripts) — MIT, see [`LICENSE`](LICENSE).
+- **Code** (the `engine/`, `manuscript/`, `aqueous/` and `kinetics/` scripts) — MIT, see
+  [`LICENSE`](LICENSE).
 - **Data, figures, and manuscript** (e.g. the experimental data under
-  `manuscript/data_dsc/`, and generated figures) — Creative Commons Attribution 4.0
-  International (CC-BY-4.0), see
+  `manuscript/data_dsc/`, the tabulated result `kinetics/kinetics_conversion_time.csv`, and
+  generated figures) — Creative Commons Attribution 4.0 International (CC-BY-4.0), see
   [`manuscript/data_dsc/LICENSE-CC-BY-4.0.txt`](manuscript/data_dsc/LICENSE-CC-BY-4.0.txt).
 
 Copyright 2026 Odinzen LLC (Michael Bustamante, Gabriel Bustamante) and the authors.
