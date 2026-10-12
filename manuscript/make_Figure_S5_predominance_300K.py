@@ -2,7 +2,8 @@
 """Fig. S5 (A/B, B&W, single-panel) — Fe-S-O predominance at 300 K, split.
 
 Fig. S5A: central dHf (greigite stable, borders the oxides).
-Fig. S5B: least-stable greigite bound, mean plus reported uncertainty (pyrrhotite appears;
+Fig. S5B: least-stable bound, every sulfide shifted by its reported uncertainty (Subramani 2020
+Table 1, per mole Fe): greigite +7.3, pyrite -6.0, pyrrhotite -3.5 kJ (pyrrhotite appears;
 pyrite borders hematite).
 
 Single-database engine (one TDB). White fields, black boundary lines, in-field
@@ -29,6 +30,7 @@ FIG = ROOT / "artifacts" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(HERE))
 import bw_style as bw
+import label_fit
 
 bw.apply()
 DB = str(TDB / "fes_o_greigite_v1.tdb")
@@ -104,10 +106,10 @@ muS2 = G_S2 + RTLN10 * SS
 muO2 = G_O2 + RTLN10 * OO
 
 
-def make(dGr, dPo, title, out):
+def make(dGr, dPo, dPy, title, out):
     Phi = np.zeros((len(PHASES),) + OO.shape)
     for i, p in enumerate(PHASES):
-        g = Gpf[p] + (dGr if p == "Gr" else dPo if p == "Po" else 0.0)
+        g = Gpf[p] + {"Gr": dGr, "Po": dPo, "FeS2": dPy}.get(p, 0.0)
         Phi[i] = g - nS2[p] * muS2 - nO2[p] * muO2
     field = np.argmin(Phi, axis=0)
     field = np.where(SS > LFS2_SAT, len(PHASES), field)
@@ -120,20 +122,6 @@ def make(dGr, dPo, title, out):
         colors="black",
         linewidths=1.1,
     )
-    for i, p in enumerate(PHASES):
-        mk = field == i
-        if mk.sum() > 300:
-            cx, cy = OO[mk].mean(), SS[mk].mean()
-            j = np.argmin((OO[mk] - cx) ** 2 + (SS[mk] - cy) ** 2)
-            ax.text(
-                OO[mk][j],
-                SS[mk][j],
-                LAB[p],
-                ha="center",
-                va="center",
-                fontsize=11.5,
-                fontweight="bold",
-            )
     ax.axhline(LFS2_SAT, color="black", ls="--", lw=1.4)
     ax.text(
         -60,
@@ -149,11 +137,16 @@ def make(dGr, dPo, title, out):
     ax.set_xlim(-120, 0)
     ax.set_ylim(-60, 0)
     fig.tight_layout()
+    # field labels last, once the layout is final, so each one is checked clear of every line
+    for i, p in enumerate(PHASES):
+        if (field == i).sum() > 300:
+            label_fit.place(ax, LAB[p], field, O, S, i, fontweight="bold")
     fig.savefig(out, dpi=190, bbox_inches="tight")
     print("wrote", out)
 
 
 make(
+    0.0,
     0.0,
     0.0,
     "Fig. S5A — Fe–S–O predominance, 300 K, central ΔH$_f$ (greigite stable)",
@@ -162,6 +155,7 @@ make(
 make(
     7300.0,
     -3500.0,
-    "Fig. S5B — Fe–S–O predominance, 300 K, least-stable greigite bound (pyrrhotite appears)",
+    -6000.0,
+    "Fig. S5B — Fe–S–O predominance, 300 K, least-stable bound (pyrrhotite appears)",
     str(FIG / "Figure_S5B.png"),
 )

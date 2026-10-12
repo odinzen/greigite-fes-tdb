@@ -23,7 +23,8 @@ if not scripts:
     sys.exit("no make_Figure_*.py scripts found next to this driver")
 if not (REPO / "artifacts" / "aqueous" / "ehph_fields.npz").exists():
     scripts.append(REPO / "aqueous" / "build_ehph_diagram.py")
-scripts += [REPO / "aqueous" / "make_ehph_figure.py", REPO / "kinetics" / "make_kinetics_figure.py"]
+scripts += [REPO / "aqueous" / "make_ehph_figure.py", REPO / "kinetics" / "make_kinetics_figure.py",
+            HERE / "stack_Figure_S5_S6.py"]   # stacks the S5/S6 panels, so it runs after them
 
 print(f"Regenerating {len(scripts)} figure scripts -> artifacts/figures/\n")
 failed = []

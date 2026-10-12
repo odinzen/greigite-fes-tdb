@@ -68,10 +68,13 @@ directory doesn't matter), named for the manuscript figure it produces:
 | Fig. S4 | `manuscript/make_Figure_S4_feo.py` | `Figure_S4.png` |
 | Fig. S5A/S5B | `manuscript/make_Figure_S5_predominance_300K.py` | `Figure_S5A.png`, `Figure_S5B.png` |
 | Fig. S6A/S6B | `manuscript/make_Figure_S6_predominance_600K.py` | `Figure_S6A.png`, `Figure_S6B.png` |
+| Figs. S5, S6 as printed (A above B) | `manuscript/stack_Figure_S5_S6.py` | `Figure_S5.png`, `Figure_S6.png` |
 | Fig. S7 | `manuscript/make_Figure_S7_dsc.py` | `Figure_S7.png` |
 
 The anhydrous Fe–S–O diagrams (Figs. S2, S5) are computed at 300 K, the temperature of
-the manuscript's boundary-fugacity tables. Fig. S7 re-plots the 2020 DSC run from the raw
+the manuscript's boundary-fugacity tables. The uncertainty bounds (Fig. 2 and panels S5B, S6B) shift all
+three sulfides by the uncertainties reported with their formation enthalpies (Subramani et al.
+2020, Table 1): greigite opposite to pyrite and pyrrhotite. Fig. S7 re-plots the 2020 DSC run from the raw
 instrument export (heat flow in µV); the manuscript panel shows the same run as plotted by
 the instrument software (calibrated mW). Fig. S8 (powder XRD of the post-DSC product) was
 produced in external software from raw diffraction data not included in this repository.

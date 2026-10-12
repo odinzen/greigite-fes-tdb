@@ -4,9 +4,9 @@
 Companion to the 300 K split (make_Figure_S5_predominance_300K.py, Fig. S5A/S5B). Same single TDB, same grand-potential construction, T = 600 K.
 Two outputs (the manuscript stacks them as Fig. S6A / S6B):
   Figure_S6A.png     central dHf (greigite stable, narrower field)
-  Figure_S6B.png  least-stable greigite bound (mean plus reported uncertainty)
+  Figure_S6B.png  least-stable bound, every sulfide shifted by its reported uncertainty
 Per-Fe enthalpy offsets are temperature-independent, so the least-stable shifts
-(greigite +7300, pyrrhotite -3500 J/mol-Fe) carry over from the 300 K case.
+(greigite +7300, pyrite -6000, pyrrhotite -3500 J/mol-Fe) carry over from the 300 K case.
 No in-image title (the caption lives in the manuscript).
 """
 
@@ -30,6 +30,7 @@ FIG = ROOT / "artifacts" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(HERE))
 import bw_style as bw
+import label_fit
 
 bw.apply()
 DB = str(TDB / "fes_o_greigite_v1.tdb")
@@ -91,7 +92,7 @@ LAB = {
     "Fe": "Fe",
     "Po": "Fe$_{1-x}$S\npyrrhotite",
     "Gr": "Fe$_3$S$_4$\ngreigite",
-    "FeS2": "FeS$_2$\npyrite",
+    "FeS2": "FeS$_2$ pyrite",  # one line: at 600 K pyrite is only a thin band
     "Fe3O4": "Fe$_3$O$_4$\nmagnetite",
     "Fe2O3": "Fe$_2$O$_3$\nhematite",
     "FeSO4": "FeSO$_4$",
@@ -105,10 +106,10 @@ muS2 = G_S2 + RTLN10 * SS
 muO2 = G_O2 + RTLN10 * OO
 
 
-def make(dGr, dPo, out):
+def make(dGr, dPo, dPy, out):
     Phi = np.zeros((len(PHASES),) + OO.shape)
     for i, p in enumerate(PHASES):
-        g = Gpf[p] + (dGr if p == "Gr" else dPo if p == "Po" else 0.0)
+        g = Gpf[p] + {"Gr": dGr, "Po": dPo, "FeS2": dPy}.get(p, 0.0)
         Phi[i] = g - nS2[p] * muS2 - nO2[p] * muO2
     field = np.argmin(Phi, axis=0)
     field = np.where(SS > LFS2_SAT, len(PHASES), field)
@@ -122,21 +123,6 @@ def make(dGr, dPo, out):
         linewidths=1.1,
     )
     present = []
-    for i, p in enumerate(PHASES):
-        mk = field == i
-        if mk.sum() > 300:
-            present.append(p)
-            cx, cy = OO[mk].mean(), SS[mk].mean()
-            j = np.argmin((OO[mk] - cx) ** 2 + (SS[mk] - cy) ** 2)
-            ax.text(
-                OO[mk][j],
-                SS[mk][j],
-                LAB[p],
-                ha="center",
-                va="center",
-                fontsize=11.5,
-                fontweight="bold",
-            )
     ax.axhline(LFS2_SAT, color="black", ls="--", lw=1.4)
     ax.text(
         -60,
@@ -152,13 +138,18 @@ def make(dGr, dPo, out):
     ax.set_xlim(-120, 0)
     ax.set_ylim(-60, 0)
     fig.tight_layout()
+    # field labels last, once the layout is final, so each one is checked clear of every line
+    for i, p in enumerate(PHASES):
+        if (field == i).sum() > 300:
+            label_fit.place(ax, LAB[p], field, O, S, i, fontweight="bold")
+            present.append(p)
     fig.savefig(out, dpi=190, bbox_inches="tight")
     print("wrote", out, "| fields:", ",".join(present))
 
 
 print("T=600 K | log f(S2) native-S sat = %.2f" % LFS2_SAT)
-make(0.0, 0.0, str(FIG / "Figure_S6A.png"))
-make(7300.0, -3500.0, str(FIG / "Figure_S6B.png"))
+make(0.0, 0.0, 0.0, str(FIG / "Figure_S6A.png"))
+make(7300.0, -3500.0, -6000.0, str(FIG / "Figure_S6B.png"))
 
 
 def boundary(a, b):
