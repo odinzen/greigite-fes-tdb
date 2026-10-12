@@ -7,12 +7,13 @@ endothermic (enthalpy-dominated, per Subramani 2020 / Shumway 2022):
 The boundary greigite enthalpy (ΔH_decomp = 0) is
     ΔHf_bound = 0.726·ΔHf(pyrrhotite) + 0.274·ΔHf(pyrite).
 Greigite must lie BELOW that bound; the margin is ΔH_decomp = ΔHf_bound − ΔHf(greigite),
-and the σ-distance = ΔH_decomp / u(ΔHf,greigite)  with u = 7.3 kJ/mol (Subramani, absolute).
+and the margin in units of u = ΔH_decomp / u(ΔHf,greigite), with u = 7.3 kJ/mol (Subramani's
+reported uncertainty, 2 SD of the mean).
 
 KEY CHANGE vs any earlier check: ΔHf(pyrrhotite) and ΔHf(pyrite) are taken from the
 DILNER 2015 TDB (Lee/Selleby basis) — computed with pycalphad as the formation
 enthalpy of those phases at 298.15 K — NOT from JANAF/Grønvold. The greigite ΔHf is
-the measured Subramani value (provenance_manifest.json). The old 0.27σ figure (JANAF
+the measured Subramani value (provenance_manifest.json). The old 0.27 u figure (JANAF
 basis) is deliberately not reused.
 """
 
@@ -83,7 +84,7 @@ def main() -> None:
     print(f"  ΔHf(greigite, Subramani)     = {dHf_grei:8.2f} +/- {u} kJ/mol")
     print(f"  ΔH_decomp (margin, >0=stable)= {dH_decomp:8.2f} kJ/mol")
     print(
-        f"  σ-distance (margin / 7.3)    = {sigma:8.2f} σ  -> greigite "
+        f"  margin / u (7.3, 2 SD)       = {sigma:8.2f} u  -> greigite "
         f"{'STABLE' if dH_decomp > 0 else 'UNSTABLE'} on the Dilner basis"
     )
     print()
@@ -96,7 +97,7 @@ def main() -> None:
         m = bound - d
         print(
             f"    {label:14s} ΔHf={d:7.1f}  margin={m:6.2f} kJ/mol  "
-            f"({m / u:+.2f}σ, {'stable' if m > 0 else 'unstable'})"
+            f"({m / u:+.2f} u, {'stable' if m > 0 else 'unstable'})"
         )
 
     out = {
@@ -109,7 +110,7 @@ def main() -> None:
         "dH_decomp_kJ": dH_decomp,
         "sigma_distance": sigma,
         "greigite_stable": bool(dH_decomp > 0),
-        "note": "supersedes the old JANAF-basis 0.27σ figure (not reused)",
+        "note": "supersedes the old JANAF-basis 0.27 u figure (not reused)",
     }
     out_path = ROOT / "artifacts" / "consistency_report.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)

@@ -67,8 +67,8 @@ STEPS = [
         "4",
         "Predominance plotting",
         "Grand-potential minimisation (after Holland\n"
-        "1959) with all-compound ±σ envelope and\n"
-        "native-sulfur saturation capping.",
+        "1959) with all-compound uncertainty envelope\n"
+        "and native-sulfur saturation capping.",
         "tool: pycalphad 0.11.1",
         "Fe" + S + " and Fe" + S + EN + "O predominance\n"
         "diagrams (the paper's figures)",

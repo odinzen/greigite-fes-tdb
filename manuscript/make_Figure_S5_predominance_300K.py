@@ -2,7 +2,8 @@
 """Fig. S5 (A/B, B&W, single-panel) — Fe-S-O predominance at 300 K, split.
 
 Fig. S5A: central dHf (greigite stable, borders the oxides).
-Fig. S5B: greigite +1 sigma (pyrrhotite appears; pyrite borders hematite).
+Fig. S5B: least-stable greigite bound, mean plus reported uncertainty (pyrrhotite appears;
+pyrite borders hematite).
 
 Single-database engine (one TDB). White fields, black boundary lines, in-field
 medoid labels, native-S cap. No footnote on the figure (text goes in caption).
@@ -161,6 +162,6 @@ make(
 make(
     7300.0,
     -3500.0,
-    "Fig. S5B — Fe–S–O predominance, 300 K, greigite +1σ (pyrrhotite appears)",
+    "Fig. S5B — Fe–S–O predominance, 300 K, least-stable greigite bound (pyrrhotite appears)",
     str(FIG / "Figure_S5B.png"),
 )

@@ -7,7 +7,7 @@ Reproducible computational basis for the **greigite (Fe₃S₄)** stability work
   measured calorimetric enthalpy and entropy.
 - **Porewater** — the aqueous Eh–pH stability diagram computed with PHREEQC (`aqueous/`), which
   places greigite's equilibrium field in reducing, near-neutral to alkaline sediment porewater and
-  carries the calorimetric uncertainty as a ±1σ band.
+  carries the reported calorimetric uncertainty (2 SD of the mean) as a band.
 - **Kinetics** — the solid-state diffusion falsification (`kinetics/`): bulk sulfur diffusion cannot
   convert greigite at diagenetic temperature, so the observed conversion to pyrite is
   solution-mediated and gated by porewater oxidant supply.
@@ -30,7 +30,7 @@ python engine/build_greigite_tdb.py
 ```
 
 This fetches the base TDB and writes the greigite **Fe–S** database (plus its
-±1σ enthalpy variants) to **`artifacts/tdb/fes_greigite_v1.tdb`**. The rest of
+enthalpy variants at ± the reported uncertainty, 2 SD of the mean) to **`artifacts/tdb/fes_greigite_v1.tdb`**. The rest of
 the campaign:
 
 ```bash
@@ -89,7 +89,7 @@ README):
 ```bash
 pip install phreeqpython numpy scipy matplotlib
 
-python aqueous/derive_greigite_logk.py   # greigite dissolution log_K (-68.95; ±1σ -65.12/-72.79)
+python aqueous/derive_greigite_logk.py   # greigite dissolution log_K (-68.95; ±2 SD -65.12/-72.79)
 python aqueous/build_ehph_diagram.py     # PHREEQC Eh-pH predominance -> artifacts/aqueous/
 python aqueous/make_ehph_figure.py       # -> artifacts/figures/Figure_3.png
 python kinetics/make_kinetics_figure.py  # -> artifacts/figures/Figure_4.png
@@ -110,7 +110,7 @@ Everything lands in the gitignored `artifacts/` tree:
 |--------|------|
 | Fe–S greigite database (+ `_dHf_lo` / `_dHf_hi` variants) | `artifacts/tdb/fes_greigite_v1.tdb` |
 | Fe–S–O greigite database | `artifacts/tdb/fes_o_greigite_v1.tdb` |
-| All-compound ±1σ boundary databases | `artifacts/tdb/fes_greigite_boundary_{lower,upper}.tdb` |
+| All-compound uncertainty-bound databases | `artifacts/tdb/fes_greigite_boundary_{lower,upper}.tdb` |
 | Manuscript figures | `artifacts/figures/*.png` |
 
 ## How it works

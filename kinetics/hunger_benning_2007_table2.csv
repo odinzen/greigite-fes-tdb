@@ -1,0 +1,7 @@
+T_C,reaction_time_min,complete,products,source
+200,90,yes,Pyrite,"Hunger & Benning 2007, Geochem. Trans. 8:1, Table 2 (p. 8 of 20), Reaction Time column, run 1 of duplicate"
+200,70,yes,"Pyrite, Greigite","Hunger & Benning 2007, Geochem. Trans. 8:1, Table 2 (p. 8 of 20), Reaction Time column, run 2 of duplicate"
+175,60,yes,"Pyrite, Greigite","Hunger & Benning 2007, Geochem. Trans. 8:1, Table 2 (p. 8 of 20), Reaction Time column"
+150,74,yes,"Pyrite, Greigite","Hunger & Benning 2007, Geochem. Trans. 8:1, Table 2 (p. 8 of 20), Reaction Time column"
+125,110,yes,Pyrite,"Hunger & Benning 2007, Geochem. Trans. 8:1, Table 2 (p. 8 of 20), Reaction Time column"
+100,311,no,"Mackinawite, Pyrite","Hunger & Benning 2007, Geochem. Trans. 8:1, Table 2 (p. 8 of 20), Reaction Time column; footnote e, reaction interrupted before completion, so 311 min is a lower bound"

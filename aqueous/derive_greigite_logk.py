@@ -25,7 +25,7 @@ LN10RT = math.log(10) * R * T   # J/mol per log10 unit = 5708.0
 # dHf: Subramani et al. 2020 (oxide-melt drop-solution calorimetry), CODATA scale.
 # S(298): Shumway et al. 2022 low-temperature heat capacity, 3 x per-FeS1.33 value (71.704).
 dHf_greigite = -431.97     # kJ/mol Fe3S4 (CODATA reference)
-dHf_sigma    = 21.9        # kJ/mol, 1 sigma calorimetric uncertainty
+dHf_u        = 21.9        # kJ/mol, reported calorimetric uncertainty (2 SD of the mean)
 S_greigite   = 215.11      # J/mol/K, = 3 x 71.704 (per-Fe3S4 basis confirmed)
 
 # --- CODATA element entropies (J/mol/K) for the formation-entropy term ---
@@ -58,13 +58,13 @@ print("verifier  pyrite  FeS2 + 2H+ + 2e- = Fe+2 + 2HS-")
 print(f"          dGf(pyrite) = {dGf_pyrite:8.2f} kJ/mol   log_K = {logK(pyr_dGr):8.3f}"
       f"   (reference phreeqc.dat: -18.479; residual 0.04)")
 
-# --- Greigite dissolution constant, nominal and +/- 1 sigma ---------------------------------
+# --- Greigite dissolution constant, nominal and +/- the reported uncertainty ------------------
 # Fe3S4 + 4 H+ = 2 Fe+3 + Fe+2 + 4 HS-   (congruent, non-redox)
 prod = 2 * dGf_aq["Fe+3"] + dGf_aq["Fe+2"] + 4 * dGf_aq["HS-"]
 print("\ngreigite  Fe3S4 + 4H+ = 2Fe+3 + Fe+2 + 4HS-")
 for tag, dHf in (("nominal", dHf_greigite),
-                 ("+1sigma (least stable)", dHf_greigite + dHf_sigma),
-                 ("-1sigma (most stable)",  dHf_greigite - dHf_sigma)):
+                 ("+2 SD (least stable)", dHf_greigite + dHf_u),
+                 ("-2 SD (most stable)",  dHf_greigite - dHf_u)):
     dGf_g = dGf_from_dHf_S(dHf, S_greigite, n_Fe=3, n_S=4)
     print(f"  [{tag:22}] dHf={dHf:8.2f}  dGf={dGf_g:8.2f} kJ/mol  ->  log_K = {logK(prod - dGf_g):8.3f}")
 

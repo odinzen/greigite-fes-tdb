@@ -4,8 +4,8 @@
 Companion to the 300 K split (make_Figure_S5_predominance_300K.py, Fig. S5A/S5B). Same single TDB, same grand-potential construction, T = 600 K.
 Two outputs (the manuscript stacks them as Fig. S6A / S6B):
   Figure_S6A.png     central dHf (greigite stable, narrower field)
-  Figure_S6B.png  greigite +1 sigma (least-stable bound)
-Per-Fe enthalpy offsets are temperature-independent, so the +1sigma shifts
+  Figure_S6B.png  least-stable greigite bound (mean plus reported uncertainty)
+Per-Fe enthalpy offsets are temperature-independent, so the least-stable shifts
 (greigite +7300, pyrrhotite -3500 J/mol-Fe) carry over from the 300 K case.
 No in-image title (the caption lives in the manuscript).
 """

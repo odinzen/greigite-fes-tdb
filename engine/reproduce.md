@@ -68,7 +68,7 @@ python engine/build_greigite_tdb.py
 #     Fe-only PYRITE block -> artifacts/tdb/fes_o_greigite_v1.tdb.
 python engine/build_fes_o_tdb.py
 
-# (c) All-compound 1-sigma boundary TDBs (LOWER/UPPER) -> artifacts/tdb/
+# (c) All-compound uncertainty-bound TDBs (LOWER/UPPER) -> artifacts/tdb/
 #     (+ writes artifacts/boundary_cases_report.json).
 python engine/build_boundary_tdbs.py
 
@@ -78,7 +78,7 @@ python engine/validate_fes_engine.py    # predominance sweep -> artifacts/fes_en
                                          #   + artifacts/figures/fes_engine_diagram.png
 
 # (d') further checks (optional but recommended)
-python engine/consistency_greigite.py    # Dilner-basis stability sigma-distance -> artifacts/
+python engine/consistency_greigite.py    # Dilner-basis margin / reported uncertainty -> artifacts/
 python engine/validate_greigite.py       # parse + equilibrium sanity
 
 # (e) manuscript figures (read TDBs from artifacts/tdb/, engine JSONs from
@@ -103,7 +103,8 @@ Expected checkpoints:
 - SER-remainder → SGTE fit `max|resid| = 0.03 J/mol` over 298–530 K
 - all 3 greigite variants parse, `GREIGITE` present as `(FE)3(S)4`
 - greigite is the **stable** phase at its composition across 298–600 K
-- Dilner-basis stability margin **+21.5 kJ/mol = +2.95σ**
+- Dilner-basis stability margin **+21.5 kJ/mol**, 2.95 × the reported greigite uncertainty
+  (7.3 kJ/mol, 2 SD of the mean)
 
 ## 3. Where the measured values come from
 

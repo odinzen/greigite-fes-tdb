@@ -1,7 +1,7 @@
 """Fig. 3 — render the porewater Eh-pH stability diagram from artifacts/aqueous/ehph_fields.npz.
 
-Greyscale house style; greigite is the hero phase (mid grey + hatch + bold outline) with its +/-1
-sigma range shaded. No title or caption is baked onto the image (it belongs in the manuscript
+Greyscale house style; greigite is the hero phase (mid grey + hatch + bold outline) with its range
+under the reported enthalpy uncertainty (2 SD of the mean) shaded. No title or caption is baked onto the image (it belongs in the manuscript
 caption); axis labels only. Writes artifacts/figures/Figure_3.png.
 """
 import numpy as np, matplotlib, pathlib
@@ -56,7 +56,8 @@ ax.contourf(pH, Eh, outside.astype(float), levels=[0.5, 1.5], colors="none", hat
 ax.pcolormesh(pH, Eh, np.where(outside, 1.0, np.nan),
               cmap=matplotlib.colors.ListedColormap(["0.93"]), shading="nearest", alpha=0.55)
 
-# greigite: nominal field (bold outline + hatch) and a single +/-1sigma uncertainty band
+# greigite: nominal field (bold outline + hatch) and one band for the reported enthalpy
+# uncertainty (21.9 kJ/mol Fe3S4, 2 SD of the mean in Subramani et al. 2020)
 gi = labels.index("Greigite")
 g_nom = denoise_mask((d["nominal"] == gi) & ~outside)
 g_hi = denoise_mask((d["hi"] == gi) & ~outside)     # +1s least stable = smallest field
@@ -85,7 +86,7 @@ handles = [Patch(facecolor=str(GREY[n]), edgecolor="k",
                  hatch=("////" if n == "Greigite" else None), label=n) for n in present]
 handles += [plt.Line2D([0], [0], color="k", lw=2.6, label="greigite (nominal)"),
             Patch(facecolor="0.72", alpha=0.7, edgecolor="0.25", ls="--",
-                  label="greigite ±1σ range")]
+                  label="greigite ±2 SD range")]
 ax.legend(handles=handles, fontsize=9.5, loc="upper right", framealpha=0.95)
 ax.set_xlim(pH.min(), pH.max())
 ax.set_ylim(Eh.min(), Eh.max())

@@ -4,8 +4,8 @@ Predominance method: over a pH x pe grid, at fixed low total dissolved Fe and di
 and C, compute the saturation index (SI) of every candidate Fe mineral at the imposed (pH, pe) and
 take the most-supersaturated solid (SI per Fe atom) as the predominant phase. Mackinawite is
 excluded (metastable precursor). Greigite log_K is the CODATA-referenced value from
-derive_greigite_logk.py; the grid is run for nominal / +1sigma / -1sigma to bound the greigite
-field.
+derive_greigite_logk.py; the grid is run for the nominal value and its reported uncertainty (+/-2 SD)
+to bound the greigite field.
 
 Needs phreeqpython (pip install phreeqpython) + numpy. The reference database is phreeqpython's
 bundled phreeqc.dat; the Fe-S(-O) phases it lacks are grafted on in memory. Writes the field grids

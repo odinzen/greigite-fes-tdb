@@ -6,7 +6,7 @@ porewater, on a redox (Eh) vs pH predominance diagram, computed with PHREEQC.
 The greigite dissolution constant is built from the same measured thermochemistry as the CALPHAD
 databases (Subramani 2020 enthalpy, Shumway 2022 entropy) on a database-consistent aqueous
 reference, then PHREEQC returns the predominant Fe mineral over a pH x pe grid at diagenetic
-dissolved-S, -Fe and -C levels. The grid is run for the nominal greigite log_K and its ±1σ bounds
+dissolved-S, -Fe and -C levels. The grid is run for the nominal greigite log_K and its ±2 SD bounds (the reported uncertainty)
 so the field carries the calorimetric uncertainty.
 
 ## Run
@@ -25,10 +25,10 @@ it lacks (greigite, pyrrhotite, magnetite). Mackinawite is excluded as a metasta
 ## Files
 
 - `derive_greigite_logk.py` — self-contained derivation of the greigite dissolution log_K
-  (-68.95, ±1σ -65.12/-72.79) from cited constants, with the pyrite verifier. Details in
+  (-68.95, ±2 SD -65.12/-72.79) from cited constants, with the pyrite verifier. Details in
   [`LOGK_DERIVATION.md`](LOGK_DERIVATION.md).
 - `build_ehph_diagram.py` — the PHREEQC predominance calculation over the pH x pe grid.
-- `make_ehph_figure.py` — greyscale render (greigite field with its ±1σ range, water-stability
+- `make_ehph_figure.py` — greyscale render (greigite field with its ±2 SD range, water-stability
   window masked).
 
 The greigite field sits in reducing, near-neutral to alkaline porewater and is robust across the

@@ -161,9 +161,9 @@ PARAMETER G(GREIGITE,FE:S;0) = +3*GHSERFE# +4*GHSERSS# +GREIGITE_GF#   (298.15�
 - **Consistency on the Dilner basis** (`consistency_greigite.py`): the
   decomposition FeS1.33 → 0.726 FeS1.092 + 0.274 FeS2 using Dilner's
   pycalphad-computed ΔHf(pyrite)=−168.61, ΔHf(pyrrhotite,FeS1.092)=−105.19 kJ/mol
-  gives a stability margin **+21.5 kJ/mol = +2.95σ** (σ = 7.3 kJ); stable across
-  the whole ±7.3 band (+1.95σ to +3.95σ). **Supersedes the old JANAF-basis 0.27σ
-  figure** (not reused). Note: the bare −177.763 pyrite a-coefficient is NOT ΔfH —
+  gives a stability margin **+21.5 kJ/mol**, 2.95 times the reported greigite uncertainty
+  u = 7.3 kJ (2 SD of the mean); stable across the whole ±7.3 band (1.95 u to 3.95 u).
+  **Supersedes the old JANAF-basis 0.27 u figure** (not reused). Note: the bare −177.763 pyrite a-coefficient is NOT ΔfH —
   the SGTE GHSER functions carry non-zero enthalpy at 298 K, so the true SER
   formation enthalpy (pycalphad) is −168.61 kJ/mol.
 
@@ -189,10 +189,10 @@ result parses with `GREIGITE` + `PYRITE` present and oxide formation energies
 within ~1% of the literature (FeO −251.9, Fe₃O₄ −334.7/Fe, Fe₂O₃ −367.3 kJ).
 
 ### All-compound boundary TDBs (`build_boundary_tdbs.py` → `artifacts/tdb/`)
-Builds the LOWER/UPPER boundary-case TDBs for the ±1σ envelope by shifting the
+Builds the LOWER/UPPER boundary-case TDBs for the uncertainty envelope by shifting the
 Dilner pyrite (±6 kJ on the −177763 constant) and pyrrhotite (±3.5 kJ on `GFES`)
-functions alongside the greigite ±σ variants — pure logged string surgery on the
-already-validated greigite ±σ TDBs. `validate_fes_engine.py` runs the pycalphad
+functions alongside the greigite variants at ± its reported uncertainty, by pure logged string
+surgery on the already-validated greigite variant TDBs. `validate_fes_engine.py` runs the pycalphad
 predominance sweep on the central/lo/hi variants and writes the boundary table to
 `artifacts/fes_engine_boundaries.json` + a diagram to `artifacts/figures/`.
 
@@ -223,9 +223,9 @@ build from this one file:
 - `extract_functions.py`    — full multi-line FUNCTION/PARAMETER blocks + 2017-zip peek.
 - `build_greigite_tdb.py`   — measured-data builder (reads the manifest) → the 3 greigite TDB variants in `artifacts/tdb/` + `artifacts/build_report.json`.
 - `build_fes_o_tdb.py`      — Fe–S–O builder (fetch + dedupe + graft) → `artifacts/tdb/fes_o_greigite_v1.tdb`.
-- `build_boundary_tdbs.py`  — all-compound ±1σ boundary TDBs → `artifacts/tdb/`; report → `artifacts/boundary_cases_report.json`.
+- `build_boundary_tdbs.py`  — all-compound uncertainty-bound TDBs → `artifacts/tdb/`; report → `artifacts/boundary_cases_report.json`.
 - `validate_fes_engine.py`  — predominance sweep → `artifacts/fes_engine_boundaries.json` + `artifacts/figures/fes_engine_diagram.png`.
-- `consistency_greigite.py` — Dilner-basis greigite stability σ-check → `artifacts/consistency_report.json`.
+- `consistency_greigite.py` — Dilner-basis greigite stability check (margin / reported uncertainty) → `artifacts/consistency_report.json`.
 - `validate_greigite.py`    — equilibrium / metastability-margin sanity check.
 - `fes_greigite_suppressed_fields.json` — **committed** reference fields (no generator) the validation figures read.
 - **Not committed** (built/fetched into `artifacts/` on first run): all `*.tdb`
@@ -237,8 +237,8 @@ build from this one file:
 ```
 python engine/build_greigite_tdb.py      # auto-fetches the Dilner-2015 base (per the manifest)
 python engine/build_fes_o_tdb.py         # fetches Dilner-2017; dedupe + graft
-python engine/build_boundary_tdbs.py     # ±1σ boundary TDBs
+python engine/build_boundary_tdbs.py     # uncertainty-bound TDBs
 python engine/validate_fes_engine.py     # predominance sweep + diagram
-python engine/consistency_greigite.py    # Dilner-basis σ-distance
+python engine/consistency_greigite.py    # Dilner-basis margin / reported uncertainty
 ```
 The build + checks run from the committed `provenance_manifest.json`.

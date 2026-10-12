@@ -1,13 +1,15 @@
 """Fig. 4 — kinetic falsification: solid-state S diffusion vs the observed conversion.
 
 Plots the solid-state sulfur-diffusion conversion time of a one-micrometre greigite crystal against
-the observed mackinawite->greigite->pyrite transformation times (Hunger & Benning 2007, minutes to
-hours at 100-200 C). The conversion time is the characteristic diffusion time L^2/D*(T) with the
-measured pyrite sulfur self-diffusion coefficient (Ea = 132 kJ/mol); it was computed with the
-Odinzen equilibrium engine (proprietary; only the tabulated result is distributed here, in
-kinetics_conversion_time.csv). The many-order-of-magnitude gap, plus the ~2x activation-energy
-mismatch against the measured transformation, rules out bulk solid-state diffusion and leaves the
-solution-mediated, oxidant-limited pathway.
+the observed total reaction times of the mackinawite -> greigite -> pyrite transformation, read
+from Hunger & Benning (2007) Table 2 (hunger_benning_2007_table2.csv). The 100 C run was stopped
+before completion, so it is drawn as a lower bound. The gap label is computed from the data at the
+temperature where the gap is smallest.
+
+The conversion time is the characteristic diffusion time L^2/D*(T) with the measured pyrite
+sulfur self-diffusion coefficient (Ea = 132 kJ/mol); it was computed with the Odinzen equilibrium
+engine (proprietary; only the tabulated result is distributed here, in
+kinetics_conversion_time.csv).
 
 No title or finding text is baked onto the image (it belongs in the manuscript caption).
 Writes artifacts/figures/Figure_4.png.
@@ -35,12 +37,23 @@ fig, ax = plt.subplots(figsize=(8.2, 6.6))
 ax.fill_between(Tc, lo, hi, color="0.75", alpha=0.7, lw=0, zorder=2)
 ax.plot(Tc, nom, "k-", lw=2.6, zorder=3, label="solid-state S diffusion (E$_a$=132 kJ mol$^{-1}$)")
 
-# observed transformation (Hunger & Benning 2007): minutes to ~1.3 h over 100-200 C
-obs_T = np.array([100, 125, 150, 175, 200])
-obs_t = np.array([1.46e-4, 5.7e-5, 2.9e-5, 1.9e-5, 9.5e-6])   # yr (77 min -> minutes)
-ax.fill_between([100, 200], [1.7e-4, 1.7e-4], [8e-6, 8e-6], color="0.35", alpha=0.30, lw=0, zorder=1)
-ax.plot(obs_T, obs_t, "o", ms=9, mfc="0.15", mec="k", zorder=4,
-        label="observed transformation (Hunger & Benning 2007, E$_a$≈66 kJ mol$^{-1}$)")
+# observed total reaction times, Hunger & Benning (2007) Table 2 (p. 8): mackinawite -> greigite -> pyrite
+MIN_PER_YR = 365.25 * 24 * 60
+obs = list(csv.DictReader(open(HERE / "hunger_benning_2007_table2.csv", encoding="utf-8")))
+obs_T = np.array([float(r["T_C"]) for r in obs])
+obs_t = np.array([float(r["reaction_time_min"]) for r in obs]) / MIN_PER_YR
+done = np.array([r["complete"] == "yes" for r in obs])
+ax.fill_between([obs_T.min(), obs_T.max()], [obs_t.max() * 1.25] * 2, [obs_t.min() * 0.8] * 2,
+                color="0.35", alpha=0.30, lw=0, zorder=1)
+ax.plot(obs_T[done], obs_t[done], "o", ms=9, mfc="0.15", mec="k", zorder=4,
+        label="observed reaction time, mackinawite → greigite → pyrite\n"
+              "(Hunger & Benning 2007, Table 2; E$_a$ = 67.5 kJ mol$^{-1}$ for mackinawite\n"
+              "consumption, 36 to 37 kJ mol$^{-1}$ for pyrite growth)")
+ax.plot(obs_T[~done], obs_t[~done], "o", ms=9, mfc="white", mec="k", mew=1.4, zorder=4,
+        label="reaction incomplete when stopped (lower bound)")
+for T, t in zip(obs_T[~done], obs_t[~done]):
+    ax.annotate("", xy=(T, t * 60), xytext=(T, t * 1.6),
+                arrowprops=dict(arrowstyle="->", color="k", lw=1.2), zorder=4)
 
 # reference timescale lines
 for yv, txt in [(1 / 8760, "1 hour"), (1, "1 year"), (1e3, "1 kyr"), (1e6, "1 Myr"),
@@ -51,10 +64,15 @@ for yv, txt in [(1 / 8760, "1 hour"), (1, "1 year"), (1e3, "1 kyr"), (1e6, "1 My
 ax.axvspan(0, 25, color="0.92", zorder=0)
 ax.text(2, 3e-3, "diagenetic\nsediment", fontsize=8.5, style="italic")
 
-# separation between the two: arrow spanning the gap (magnitude only, no conclusion text)
-ax.annotate("", xy=(150, 3.7e10), xytext=(150, 2.9e-5),
-            arrowprops=dict(arrowstyle="<->", color="k", lw=1.4), zorder=5)
-ax.text(153, 3e3, "≥ 10$^{13}$×", fontsize=10, va="center")
+# gap label: smallest central-line gap over the completed runs (slowest run at that T)
+logt_nom = lambda T: np.interp(T, Tc, np.log10(nom))
+gap = 10 ** logt_nom(obs_T[done]) / obs_t[done]
+k = int(np.argmin(gap))
+Tg, tg = obs_T[done][k], obs_t[done][k]
+ax.annotate("", xy=(Tg, 10 ** logt_nom(Tg)), xytext=(Tg, tg),
+            arrowprops=dict(arrowstyle="<->", color="k", lw=1.4, shrinkA=6), zorder=5)
+mant, expo = f"{gap[k]:.0e}".split("e")
+ax.text(Tg + 3, 1e-1, f"{mant} × 10$^{{{int(expo)}}}$×\nat {Tg:.0f} °C", fontsize=10, va="center")
 
 ax.set_yscale("log")
 ax.set_xlabel("Temperature (°C)", fontsize=14)

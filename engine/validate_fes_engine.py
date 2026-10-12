@@ -108,7 +108,7 @@ def build_fields(db, label: str):
 
 
 def consistency_sigma(db, T=298.15):
-    """Greigite decomposition margin on this TDB basis (kJ, sigma)."""
+    """Greigite decomposition margin on this TDB basis (kJ, and in units of u = 7.3 kJ, 2 SD)."""
 
     # Hf of pyrite and pyrrhotite(FeS1.092) and greigite at their compositions
     def hm(phase, x_s):
