@@ -1,0 +1,52 @@
+{
+  "title": "greigite-fes-tdb: data and code for the thermodynamic stability of greigite (Fe3S4) and its record of porewater redox",
+  "upload_type": "dataset",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "description": "<p>Reproducibility package for a study of greigite (Fe3S4) stability in the Fe-S and Fe-S-O systems and in sediment porewater. It builds the Fe-S and Fe-S-O CALPHAD databases with greigite as a stable phase from a published base database and the measured calorimetric enthalpy and entropy, and generates the anhydrous predominance diagrams and the boundary fugacities of the manuscript tables. It also holds the PHREEQC porewater Eh-pH calculation with a self-contained derivation of the greigite dissolution constant, the tabulated solid-state conversion times, the differential scanning calorimetry and X-ray diffraction data, and the scripts that generate every figure. No database files are deposited; they are built from the cited values on first run.</p><p>Licenses by component: code is MIT; data, tabulated results and figures are CC BY 4.0. See LICENSE and README.md.</p>",
+  "creators": [
+    {
+      "name": "Bustamante, Michael E.",
+      "affiliation": "Odinzen LLC, Houston, TX, United States",
+      "orcid": "0009-0009-9001-8151"
+    },
+    {
+      "name": "Bustamante, Gabriel",
+      "affiliation": "Odinzen LLC, Houston, TX, United States",
+      "orcid": "0009-0005-3269-024X"
+    },
+    {
+      "name": "Subramani, Tamilarasan",
+      "affiliation": "Navrotsky Eyring Center for Materials of the Universe, School of Molecular Sciences, Arizona State University, Tempe, AZ, USA",
+      "orcid": "0000-0002-8121-1971"
+    },
+    {
+      "name": "Lilova, Kristina",
+      "affiliation": "Navrotsky Eyring Center for Materials of the Universe, School of Molecular Sciences, Arizona State University, Tempe, AZ, USA",
+      "orcid": "0000-0002-9433-3310"
+    },
+    {
+      "name": "Navrotsky, Alexandra",
+      "affiliation": "Navrotsky Eyring Center for Materials of the Universe, School of Molecular Sciences, Arizona State University, Tempe, AZ, USA",
+      "orcid": "0000-0002-3260-0364"
+    }
+  ],
+  "keywords": [
+    "greigite",
+    "Fe-S",
+    "Fe-S-O",
+    "CALPHAD",
+    "predominance diagram",
+    "porewater",
+    "PHREEQC",
+    "Eh-pH"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.1073/pnas.2017312117",
+      "relation": "references",
+      "resource_type": "publication-article",
+      "scheme": "doi"
+    }
+  ]
+}

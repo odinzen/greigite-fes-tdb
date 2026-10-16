@@ -1,0 +1,60 @@
+cff-version: 1.2.0
+message: "If you use this package, please cite it as below, together with the greigite calorimetry of Subramani et al. (2020)."
+title: "greigite-fes-tdb: data and code for the thermodynamic stability of greigite (Fe3S4) and its record of porewater redox"
+type: dataset
+version: 1.0.0
+license:
+  - MIT
+  - CC-BY-4.0
+repository-code: "https://github.com/odinzen/greigite-fes-tdb"
+authors:
+  - family-names: Bustamante
+    given-names: Michael E.
+    orcid: "https://orcid.org/0009-0009-9001-8151"
+    affiliation: "Odinzen LLC, Houston, TX, United States"
+  - family-names: Bustamante
+    given-names: Gabriel
+    orcid: "https://orcid.org/0009-0005-3269-024X"
+    affiliation: "Odinzen LLC, Houston, TX, United States"
+  - family-names: Subramani
+    given-names: Tamilarasan
+    orcid: "https://orcid.org/0000-0002-8121-1971"
+    affiliation: "Navrotsky Eyring Center for Materials of the Universe, School of Molecular Sciences, Arizona State University, Tempe, AZ, USA"
+  - family-names: Lilova
+    given-names: Kristina
+    orcid: "https://orcid.org/0000-0002-9433-3310"
+    affiliation: "Navrotsky Eyring Center for Materials of the Universe, School of Molecular Sciences, Arizona State University, Tempe, AZ, USA"
+  - family-names: Navrotsky
+    given-names: Alexandra
+    orcid: "https://orcid.org/0000-0002-3260-0364"
+    affiliation: "Navrotsky Eyring Center for Materials of the Universe, School of Molecular Sciences, Arizona State University, Tempe, AZ, USA"
+keywords:
+  - greigite
+  - Fe-S
+  - Fe-S-O
+  - CALPHAD
+  - predominance diagram
+  - porewater
+  - PHREEQC
+  - Eh-pH
+references:
+  - type: article
+    title: "Greigite (Fe3S4) is thermodynamically stable: Implications for its terrestrial and planetary occurrence"
+    authors:
+      - family-names: Subramani
+        given-names: Tamilarasan
+      - family-names: Lilova
+        given-names: Kristina
+      - family-names: Abramchuk
+        given-names: Mykola
+      - family-names: Leinenweber
+        given-names: Kurt D.
+      - family-names: Navrotsky
+        given-names: Alexandra
+    journal: "Proceedings of the National Academy of Sciences"
+    year: 2020
+    volume: 117
+    issue: 46
+    start: 28645
+    end: 28648
+    doi: 10.1073/pnas.2017312117
