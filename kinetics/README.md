@@ -6,8 +6,9 @@ diffusion is `L^2 / D*(T)`, with `D*(T) = D0 exp(-Ea/RT)` and the measured pyrit
 self-diffusion coefficient (Ea = 132 ± 12.5 kJ/mol; Watson, Cherniak & Frank 2009). It is of order
 10^17 years at 25 °C, many orders of magnitude slower than the observed transformation, which
 completes in 60 to 110 minutes at 125-200 °C (Hunger & Benning 2007, Table 2; the 100 °C run
-was stopped after 311 minutes, before completion). The operative pathway is
-therefore solution-mediated and gated by porewater oxidant supply, not intracrystalline diffusion.
+was stopped after 311 minutes, before completion). Bulk sulfur diffusion
+therefore cannot control the conversion; the faster pathways need an electron acceptor supplied by
+the porewater (zero-valent sulfur in polysulfides, or dissolved H2S).
 
 ## Provenance and scope
 

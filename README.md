@@ -6,11 +6,11 @@ Reproducible computational basis for the **greigite (Fe₃S₄)** stability work
   predominance figures (`engine/`, `manuscript/`). Greigite enters as a stable phase built from the
   measured calorimetric enthalpy and entropy.
 - **Porewater** — the aqueous Eh–pH stability diagram computed with PHREEQC (`aqueous/`), which
-  places greigite's equilibrium field in reducing, near-neutral to alkaline sediment porewater and
-  carries the reported calorimetric uncertainty (2 SD of the mean) as a band.
+  places greigite's equilibrium field in reducing porewater along the lower stability limit of water
+  from pH 2 to 12 and carries the reported calorimetric uncertainty (2 SD of the mean) as a band.
 - **Kinetics** — the solid-state diffusion falsification (`kinetics/`): bulk sulfur diffusion cannot
-  convert greigite at diagenetic temperature, so the observed conversion to pyrite is
-  solution-mediated and gated by porewater oxidant supply.
+  convert greigite at diagenetic temperature, so the observed conversion to pyrite runs through
+  faster pathways that need an electron acceptor supplied by the porewater.
 
 No database or Word files are committed: a published CALPHAD base is fetched and the greigite
 databases are built from a small set of cited measured values on first run; everything generated
@@ -69,18 +69,20 @@ directory doesn't matter), named for the manuscript figure it produces:
 | Fig. S5A/S5B | `manuscript/make_Figure_S5_predominance_300K.py` | `Figure_S5A.png`, `Figure_S5B.png` |
 | Fig. S6A/S6B | `manuscript/make_Figure_S6_predominance_600K.py` | `Figure_S6A.png`, `Figure_S6B.png` |
 | Figs. S5, S6 as printed (A above B) | `manuscript/stack_Figure_S5_S6.py` | `Figure_S5.png`, `Figure_S6.png` |
-| Fig. S7 | `manuscript/make_Figure_S7_dsc.py` | `Figure_S7.png` |
+| Fig. S7A (2020 DSC, raw export) | `manuscript/make_Figure_S7_dsc.py` | `Figure_S7.png` |
+| Fig. S8A (2026 DSC, raw export) | `manuscript/make_dsc_2026_remeasurement.py` | `dsc_2026_remeasurement.png` |
 
 The anhydrous Fe–S–O diagrams (Figs. S2, S5) are computed at 300 K, the temperature of
 the manuscript's boundary-fugacity tables. The uncertainty bounds (Fig. 2 and panels S5B, S6B) shift all
 three sulfides by the uncertainties reported with their formation enthalpies (Subramani et al.
-2020, Table 1): greigite opposite to pyrite and pyrrhotite. Fig. S7 re-plots the 2020 DSC run from the raw
-instrument export (heat flow in µV); the manuscript panel shows the same run as plotted by
-the instrument software (calibrated mW). Fig. S8 (powder XRD of the post-DSC product) was
-produced in external software from raw diffraction data not included in this repository.
+2020, Table 1): greigite opposite to pyrite and pyrrhotite. Figs. S7 and S8 are
+measured data, not calculations: panel A of each is the DSC run (2020, and the same sample again in
+2026) and panel B the powder XRD of the post-DSC product. The two DSC scripts re-plot the raw
+instrument exports in `manuscript/data_dsc/` (heat flow in µV); the manuscript panels show the same
+runs as plotted by the instrument software (calibrated mW). The XRD panels were produced in
+external software from raw diffraction data not included in this repository.
 
-Two further scripts are kept for reference but are not in the current manuscript:
-`manuscript/make_dsc_2026_remeasurement.py` (the 2026 DSC re-measurement) and
+One further script is kept for reference but is not in the current manuscript:
 `manuscript/make_pipeline_diagram.py` (the build-pipeline schematic). The
 `manuscript/explore_*.py` scripts are exploratory/superseded drafts.
 

@@ -31,5 +31,5 @@ it lacks (greigite, pyrrhotite, magnetite). Mackinawite is excluded as a metasta
 - `make_ehph_figure.py` — renders Fig. 3 (coloured fields with boundaries where the saturation scores cross; greigite field with its ±2 SD range, water-stability
   window masked).
 
-The greigite field sits in reducing, near-neutral to alkaline porewater and is robust across the
-calorimetric uncertainty.
+The greigite field sits in reducing porewater along the lower stability limit of water from pH 2 to
+12 and is robust across the calorimetric uncertainty.

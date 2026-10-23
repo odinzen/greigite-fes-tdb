@@ -1,7 +1,6 @@
 # Manuscript companion
 
-Companion code for the manuscript *"Greigite is thermodynamically stable and its pyritization
-is gated by porewater oxidant, not solid-state diffusion"* (Michael E. Bustamante, Gabriel
+Companion code for the manuscript *"Porewater chemistry, not lattice diffusion, controls pyritization of stable greigite"* (Michael E. Bustamante, Gabriel
 Bustamante, Tamilarasan Subramani, Kristina Lilova and Alexandra Navrotsky), submitted for
 publication.
 
@@ -21,8 +20,9 @@ diffusion falsification (`kinetics/`).
 - The greigite dissolution constant on the CODATA aqueous reference is log K = −68.95
   (±2 SD: −65.12 / −72.79); the same reference set reproduces the database pyrite constant to
   within 0.04 log units.
-- Converting a one-micrometre greigite crystal by bulk sulfur diffusion takes of order 10¹⁷ years
-  at 25 °C, so the observed conversion to pyrite is solution-mediated.
+- Converting a greigite crystal of 1 µm radius by bulk sulfur diffusion takes of order 10¹⁷ years
+  at 25 °C and about 7 × 10⁸ years at 200 °C, while the observed conversion to pyrite completes in
+  hours, so bulk sulfur diffusion cannot control it.
 
 ## License
 
