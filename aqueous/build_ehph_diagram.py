@@ -93,7 +93,7 @@ Magnetite
     return out
 
 
-def predominant(pp, pH, pe, feT=1e-6, sT=1e-3, cT=1e-3):
+def predominant(pp, pH, pe, feT=1e-6, sT=1e-3, cT=1e-3, scores=None):
     """Return (name, SI) of the most-supersaturated candidate solid, or ('aqueous', si)."""
     try:
         # total S with NO fixed valence so the imposed pe sets the sulfate/sulfide split
@@ -110,6 +110,8 @@ def predominant(pp, pH, pe, feT=1e-6, sT=1e-3, cT=1e-3):
         if si is None:
             continue
         norm = si / N_FE[m]          # SI per Fe atom -> lowest imposed a_Fe wins
+        if scores is not None:
+            scores[m] = norm
         if norm > best_norm:
             best, best_norm, best_si = m, norm, si
     pp.remove_solutions([sol.number])
@@ -127,11 +129,18 @@ if __name__ == "__main__":
         db = make_db(glk)
         pp = PhreeqPython(database=str(db))
         grid = np.zeros((len(pe_grid), len(pH_grid)), dtype=int)
+        # continuous SI/n_Fe per candidate, so the figure can draw boundaries where two scores
+        # cross instead of tracing grid cells
+        score = np.full((len(CANDIDATES), len(pe_grid), len(pH_grid)), np.nan)
         for j, pe in enumerate(pe_grid):
             for i, pH in enumerate(pH_grid):
-                name, _ = predominant(pp, pH, pe)
+                s = {}
+                name, _ = predominant(pp, pH, pe, scores=s)
                 grid[j, i] = labels[name]
+                for k, m in enumerate(CANDIDATES):
+                    score[k, j, i] = s.get(m, np.nan)
         fields[variant] = grid
+        fields["score_" + variant] = score
         del pp
         print(f"[{variant:7}] greigite log_K={glk}: field counts:",
               {n: int((grid == labels[n]).sum()) for n in ["Greigite", "Pyrite", "Pyrrhotite",
@@ -148,5 +157,5 @@ if __name__ == "__main__":
         print(f"  pH={pH:4} pe={pe:5} -> {name:11} (SI={si:6.2f})   [{expect}]")
 
     np.savez(ART / "ehph_fields.npz", pH=pH_grid, pe=pe_grid,
-             labels=np.array(list(labels.keys())), **fields)
+             labels=np.array(list(labels.keys())), candidates=np.array(CANDIDATES), **fields)
     print("\nsaved", ART / "ehph_fields.npz")

@@ -28,7 +28,7 @@ it lacks (greigite, pyrrhotite, magnetite). Mackinawite is excluded as a metasta
   (-68.95, ±2 SD -65.12/-72.79) from cited constants, with the pyrite verifier. Details in
   [`LOGK_DERIVATION.md`](LOGK_DERIVATION.md).
 - `build_ehph_diagram.py` — the PHREEQC predominance calculation over the pH x pe grid.
-- `make_ehph_figure.py` — greyscale render (greigite field with its ±2 SD range, water-stability
+- `make_ehph_figure.py` — renders Fig. 3 (coloured fields with boundaries where the saturation scores cross; greigite field with its ±2 SD range, water-stability
   window masked).
 
 The greigite field sits in reducing, near-neutral to alkaline porewater and is robust across the

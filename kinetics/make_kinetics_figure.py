@@ -30,12 +30,12 @@ with open(HERE / "kinetics_conversion_time.csv") as f:
         hi.append(float(r["t_hi_yr"])); lo.append(float(r["t_lo_yr"]))
 Tc, nom, hi, lo = map(np.array, (Tc, nom, hi, lo))
 
-plt.rcParams.update({"font.size": 12})
+plt.rcParams.update({"font.size": 14})
 fig, ax = plt.subplots(figsize=(8.2, 6.6))
 
 # solid-state diffusion band (Ea +/- 12.5 kJ/mol) + nominal
 ax.fill_between(Tc, lo, hi, color="0.75", alpha=0.7, lw=0, zorder=2)
-ax.plot(Tc, nom, "k-", lw=2.6, zorder=3, label="solid-state S diffusion (E$_a$=132 kJ mol$^{-1}$)")
+ax.plot(Tc, nom, "k-", lw=2.6, zorder=3, label="solid-state S diffusion")
 
 # observed total reaction times, Hunger & Benning (2007) Table 2 (p. 8): mackinawite -> greigite -> pyrite
 MIN_PER_YR = 365.25 * 24 * 60
@@ -46,11 +46,9 @@ done = np.array([r["complete"] == "yes" for r in obs])
 ax.fill_between([obs_T.min(), obs_T.max()], [obs_t.max() * 1.25] * 2, [obs_t.min() * 0.8] * 2,
                 color="0.35", alpha=0.30, lw=0, zorder=1)
 ax.plot(obs_T[done], obs_t[done], "o", ms=9, mfc="0.15", mec="k", zorder=4,
-        label="observed reaction time, mackinawite → greigite → pyrite\n"
-              "(Hunger & Benning 2007, Table 2; E$_a$ = 67.5 kJ mol$^{-1}$ for mackinawite\n"
-              "consumption, 36 to 37 kJ mol$^{-1}$ for pyrite growth)")
+        label="observed reaction time")
 ax.plot(obs_T[~done], obs_t[~done], "o", ms=9, mfc="white", mec="k", mew=1.4, zorder=4,
-        label="reaction incomplete when stopped (lower bound)")
+        label="incomplete (lower bound)")
 for T, t in zip(obs_T[~done], obs_t[~done]):
     ax.annotate("", xy=(T, t * 60), xytext=(T, t * 1.6),
                 arrowprops=dict(arrowstyle="->", color="k", lw=1.2), zorder=4)
@@ -59,10 +57,10 @@ for T, t in zip(obs_T[~done], obs_t[~done]):
 for yv, txt in [(1 / 8760, "1 hour"), (1, "1 year"), (1e3, "1 kyr"), (1e6, "1 Myr"),
                 (1e9, "1 Gyr"), (1.37e10, "age of universe")]:
     ax.axhline(yv, color="0.85", lw=0.8, zorder=0)
-    ax.text(249, yv * 1.3, txt, fontsize=7.5, ha="right", color="0.4")
+    ax.text(249, yv * 1.3, txt, fontsize=11, ha="right", color="0.1")
 
 ax.axvspan(0, 25, color="0.92", zorder=0)
-ax.text(2, 3e-3, "diagenetic\nsediment", fontsize=8.5, style="italic")
+ax.text(2, 3e-3, "diagenetic\nsediment", fontsize=12, style="italic")
 
 # gap label: smallest central-line gap over the completed runs (slowest run at that T)
 logt_nom = lambda T: np.interp(T, Tc, np.log10(nom))
@@ -72,13 +70,14 @@ Tg, tg = obs_T[done][k], obs_t[done][k]
 ax.annotate("", xy=(Tg, 10 ** logt_nom(Tg)), xytext=(Tg, tg),
             arrowprops=dict(arrowstyle="<->", color="k", lw=1.4, shrinkA=6), zorder=5)
 mant, expo = f"{gap[k]:.0e}".split("e")
-ax.text(Tg + 3, 1e-1, f"{mant} × 10$^{{{int(expo)}}}$×\nat {Tg:.0f} °C", fontsize=10, va="center")
+ax.text(Tg - 3, 1e-1, f"{mant} × 10$^{{{int(expo)}}}$×\nat {Tg:.0f} °C", fontsize=13, va="center", ha="right")
 
 ax.set_yscale("log")
-ax.set_xlabel("Temperature (°C)", fontsize=14)
-ax.set_ylabel("Greigite → pyrite conversion time (years)", fontsize=14)
+ax.set_xlabel("Temperature (°C)", fontsize=16)
+ax.set_ylabel("Greigite → pyrite conversion time (years)", fontsize=16)
+ax.tick_params(labelsize=14)
 ax.set_xlim(0, 250); ax.set_ylim(1e-6, 1e22)
-ax.legend(fontsize=9.5, loc="upper right", framealpha=0.95)
+ax.legend(fontsize=13, loc="upper right", framealpha=0.95)
 fig.tight_layout()
 out = ART / "Figure_4.png"
 fig.savefig(out, dpi=300)
