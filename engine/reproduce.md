@@ -68,7 +68,7 @@ python engine/build_greigite_tdb.py
 #     Fe-only PYRITE block -> artifacts/tdb/fes_o_greigite_v1.tdb.
 python engine/build_fes_o_tdb.py
 
-# (c) All-compound uncertainty-bound TDBs (LOWER/UPPER) -> artifacts/tdb/
+# (c) Greigite-only uncertainty-bound TDBs (LOWER/UPPER) -> artifacts/tdb/
 #     (+ writes artifacts/boundary_cases_report.json).
 python engine/build_boundary_tdbs.py
 

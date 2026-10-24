@@ -2,9 +2,9 @@
 """Fig. S5 (A/B, B&W, single-panel) — Fe-S-O predominance at 300 K, split.
 
 Fig. S5A: central dHf (greigite stable, borders the oxides).
-Fig. S5B: least-stable bound, every sulfide shifted by its reported uncertainty (Subramani 2020
-Table 1, per mole Fe): greigite +7.3, pyrite -6.0, pyrrhotite -3.5 kJ (pyrrhotite appears;
-pyrite borders hematite).
+Fig. S5B: least-stable bound, greigite enthalpy raised by its reported uncertainty, 7.3 kJ per
+mole Fe (Subramani 2020 Table 1, 2 SD of the mean); pyrite and pyrrhotite stay at the assessed
+values (pyrrhotite appears; pyrite borders hematite).
 
 Single-database engine (one TDB). White fields, black boundary lines, in-field
 medoid labels, native-S cap. No footnote on the figure (text goes in caption).
@@ -154,8 +154,22 @@ make(
 )
 make(
     7300.0,
-    -3500.0,
-    -6000.0,
+    0.0,
+    0.0,
     "Fig. S5B — Fe–S–O predominance, 300 K, least-stable bound (pyrrhotite appears)",
     str(FIG / "Figure_S5B.png"),
 )
+
+
+def boundary(a, b, dGr=0.0):
+    ga = Gpf[a] + (dGr if a == "Gr" else 0.0)
+    gb = Gpf[b] + (dGr if b == "Gr" else 0.0)
+    return ((ga - gb) / (nS2[a] - nS2[b]) - G_S2) / RTLN10
+
+
+# Table 2 sulfide rows at 300 K, central and least-stable greigite bound
+print("central Fe/Gr          log f(S2) = %.1f" % boundary("Fe", "Gr"))
+print("central Gr/FeS2        log f(S2) = %.1f" % boundary("Gr", "FeS2"))
+print("least stable Fe/Po     log f(S2) = %.1f" % boundary("Fe", "Po", 7300.0))
+print("least stable Po/Gr     log f(S2) = %.1f" % boundary("Po", "Gr", 7300.0))
+print("least stable Gr/FeS2   log f(S2) = %.1f" % boundary("Gr", "FeS2", 7300.0))

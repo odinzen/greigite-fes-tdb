@@ -1,41 +1,22 @@
 #!/usr/bin/env python
-"""Build the TWO all-compound boundary-case TDBs for the Fig. 2 envelope.
+"""Build the two uncertainty-bound TDBs for the Fig. 2 envelope.
 
-Earlier work shifted ONLY greigite (+/-21.9 kJ/Fe3S4) in _dHf_lo/_hi.tdb. The
-boundary cases require shifting the Dilner PYRITE and PYRRHOTITE G-functions by
-their own reported uncertainties u too, so the error envelope is propagated for ALL
-compounds (greigite +/-7.3, pyrite +/-6.0, pyrrhotite +/-3.5 kJ per f.u.; the greigite
-value is 2 SD of the mean in Subramani 2020).
+Only greigite carries a bound: its enthalpy of formation is shifted by the reported
+uncertainty, 7.3 kJ per FeS1.33 (21.9 kJ per Fe3S4, 2 SD of the mean, Subramani et al.
+2020 Table 1). Pyrite and pyrrhotite stay at the assessed Dilner (Lee) functions. The
+6.0 and 3.5 kJ quoted beside them in Subramani's Table 1 are Xu & Navrotsky (2010)
+drop-solution errors on Xu's own values (-175.5, -106.2 kJ), not on the database values
+used here, so applying them would mix database values with experimental errors.
 
-Two labelled cases (feedback 4):
-  LOWER  (pyrrhotite eliminated / smallest pyrrhotite field):
-      greigite at -u (MOST stable)  -> use _dHf_lo greigite function
-      pyrite    at +u (LEAST stable) -> +6000 J on the -177763 constant
-      pyrrhotite at +u (LEAST stable)-> +3500 J on GFES (-107518)
-  UPPER  (largest pyrrhotite field):
-      greigite at +u (LEAST stable) -> use _dHf_hi greigite function
-      pyrite    at -u (MOST stable) -> -6000 J on the -177763 constant
-      pyrrhotite at -u (MOST stable)-> -3500 J on GFES (-107518)
+  LOWER  greigite at -u (most stable)   <- _dHf_lo
+  UPPER  greigite at +u (least stable)  <- _dHf_hi
 
-Method: pure, logged string surgery on the already-validated greigite +/-u
-TDBs. The greigite functions themselves are NOT rebuilt (they reproduce
-byte-for-byte from build_greigite_tdb.py); we only add the pyrite/pyrrhotite
-+/-u shifts to the Dilner REF2 (Lee et al.) functions.
+The files are the greigite +/-u TDBs from build_greigite_tdb.py with a banner, kept
+under the boundary names so the probe and figure scripts read one pair of files.
 
-Uncertainty sources (u per f.u., from Subramani 2020 Table 1 / Xu & Navrotsky 2010):
-  greigite -144.1 +/- 7.3 kJ/mol-FeS1.33   (x3 -> +/-21.9 kJ/Fe3S4)
-  pyrite   -175.5 +/- 6.0 kJ/mol-FeS2
-  pyrrhotite -106.2 +/- 3.5 kJ/mol-FeS1.092 (shift applied to the FeS unit GFES)
-
-NOTE (traceability): the +/-3.5 is per FeS1.092; we apply it to GFES, the FeS
-endmember energy of the (FE,VA):(S) sublattice model. This shifts the whole
-pyrrhotite manifold by 3.5 kJ/mol-FeS, a defensible uncertainty envelope on the
-non-stoichiometric phase (documented, not a silent approximation).
-
-I/O: reads the greigite +/-u TDBs from artifacts/tdb/ (build them first with
-build_greigite_tdb.py), writes the two boundary TDBs back to artifacts/tdb/, and
-writes the machine-readable boundary_cases_report.json to artifacts/ (a generated
-report, not committed).
+I/O: reads artifacts/tdb/fes_greigite_v1_dHf_{lo,hi}.tdb, writes
+artifacts/tdb/fes_greigite_boundary_{lower,upper}.tdb and the generated
+artifacts/boundary_cases_report.json (not committed).
 """
 
 from __future__ import annotations
@@ -52,21 +33,14 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 TDB_DIR = ROOT / "artifacts" / "tdb"
 
-PYRITE_TOKEN = "-177763"  # Dilner/Lee pyrite FE:S constant (REF2)
-GFES_TOKEN = "-107518"  # Dilner/Lee GFES (pyrrhotite FeS unit, REF2)
-
 CASES = {
     "fes_greigite_boundary_lower.tdb": {
-        "src": "fes_greigite_v1_dHf_lo.tdb",  # greigite -u (most stable)
-        "d_pyrite": +6000,  # pyrite least stable
-        "d_pyrrho": +3500,  # pyrrhotite least stable
-        "tag": "LOWER: greigite -1s, pyrite +1s, pyrrhotite +1s (pyrrhotite minimised/eliminated)",
+        "src": "fes_greigite_v1_dHf_lo.tdb",
+        "tag": "LOWER: greigite -u (most stable), pyrite and pyrrhotite assessed",
     },
     "fes_greigite_boundary_upper.tdb": {
-        "src": "fes_greigite_v1_dHf_hi.tdb",  # greigite +u (least stable)
-        "d_pyrite": -6000,  # pyrite most stable
-        "d_pyrrho": -3500,  # pyrrhotite most stable
-        "tag": "UPPER: greigite +1s, pyrite -1s, pyrrhotite -1s (pyrrhotite field maximised)",
+        "src": "fes_greigite_v1_dHf_hi.tdb",
+        "tag": "UPPER: greigite +u (least stable), pyrite and pyrrhotite assessed",
     },
 }
 
@@ -78,13 +52,6 @@ CONDENSED = ["BCC_A2", "FCC_A1", "PYRRHOTITE", "PYRITE", "GREIGITE", "ORTHORHOMB
 S2_REF_FUNCTION = "F15281T"
 T_GRID = [300.0, 350.0, 400.0, 450.0, 500.0, 550.0, 600.0]
 XS_GRID = np.linspace(0.34, 0.665, 70)
-
-
-def _shift_token(text: str, token: str, delta: int) -> str:
-    n = text.count(token)
-    if n != 1:
-        raise RuntimeError(f"token {token!r} appears {n}x (expected 1) — refusing")
-    return text.replace(token, f"{token}{delta:+d}", 1)
 
 
 def _g_s2_ref(db, T):
@@ -127,29 +94,21 @@ def main():
     TDB_DIR.mkdir(parents=True, exist_ok=True)
     rep_path = ROOT / "artifacts" / "boundary_cases_report.json"
     report = _json.loads(rep_path.read_text(encoding="utf-8")) if rep_path.exists() else {}
-    print("Boundary-case TDB build (all-compound uncertainty envelope)\n" + "=" * 58)
+    print("Boundary-case TDB build (greigite-only uncertainty)\n" + "=" * 52)
     for out_name, c in CASES.items():
         if only and only not in out_name:
             continue
         src = (TDB_DIR / c["src"]).read_text(encoding="utf-8")
-        txt = _shift_token(src, PYRITE_TOKEN, c["d_pyrite"])
-        txt = _shift_token(
-            txt, GFES_TOKEN, c["d_pyrro"] if "d_pyrro" in c else c["d_pyrrho"]
-        )
-        # banner so the file self-documents the edit
         banner = (
-            f"$ BOUNDARY CASE — {c['tag']}\n"
-            f"$ edits vs {c['src']}: PYRITE {c['d_pyrite']:+d} J on {PYRITE_TOKEN}; "
-            f"GFES {c['d_pyrrho']:+d} J on {GFES_TOKEN}. Built by build_boundary_tdbs.py.\n"
+            f"$ BOUNDARY CASE - {c['tag']}\n"
+            f"$ copy of {c['src']}. Built by build_boundary_tdbs.py.\n"
         )
-        txt = banner + txt
+        txt = banner + src
         out = TDB_DIR / out_name
         out.write_text(txt, encoding="utf-8")
         sha = hashlib.sha256(txt.encode()).hexdigest()
         print(f"\n[{out_name}]  {c['tag']}")
-        print(
-            f"  pyrite {c['d_pyrite']:+d} J, pyrrhotite(GFES) {c['d_pyrrho']:+d} J  sha={sha[:12]}"
-        )
+        print(f"  sha={sha[:12]}")
         db = Database(str(out))  # parse check
         fields = probe(db)
         po = fields.get("PYRRHOTITE")

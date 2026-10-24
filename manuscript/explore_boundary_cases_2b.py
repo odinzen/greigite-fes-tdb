@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 """Render Fig. 2b — the TWO labelled boundary cases, from the ENGINE.
 
-Reads the all-compound boundary TDBs built by
+Reads the greigite-only boundary TDBs built by
 engine/build_boundary_tdbs.py and draws a two-panel Fe-S
 log f(S2)-vs-T predominance diagram:
 
-  LEFT  = LOWER  (greigite -1s, pyrite +1s, pyrrhotite +1s) -> pyrrhotite eliminated
-  RIGHT = UPPER  (greigite +1s, pyrite -1s, pyrrhotite -1s) -> max pyrrhotite field
+  LEFT  = LOWER  (greigite -u, most stable) -> pyrrhotite eliminated
+  RIGHT = UPPER  (greigite +u, least stable) -> pyrrhotite field appears
 
 The two panels ARE the on-figure uncertainty representation (Kristina's
-"errors"): together they bound the +/-1 sigma all-compound envelope
-(greigite +/-7.3, pyrite +/-6.0, pyrrhotite +/-3.5 kJ per f.u.).
+"errors"): together they bound the greigite uncertainty, +/-7.3 kJ per FeS1.33
+(2 SD of the mean). Pyrite and pyrrhotite stay at the assessed values.
 
 Regression fixes implemented here:
   * boundary cases restored (both panels), built through pycalphad not the prototype;
@@ -64,11 +64,11 @@ XS_GRID = np.concatenate([np.linspace(0.34, 0.64, 42), np.linspace(0.642, 0.6664
 CASES = {
     "lower": dict(
         tdb="fes_greigite_boundary_lower.tdb",
-        title="LOWER bound  (greigite −1σ, pyrrhotite +1σ; pyrite central)\npyrrhotite eliminated — greigite preempts",
+        title="LOWER bound  (greigite − reported uncertainty)\npyrrhotite eliminated — greigite preempts",
     ),
     "upper": dict(
         tdb="fes_greigite_boundary_upper.tdb",
-        title="UPPER bound  (greigite +1σ, pyrrhotite −1σ; pyrite central)\nmaximum pyrrhotite field",
+        title="UPPER bound  (greigite + reported uncertainty)\npyrrhotite field appears",
     ),
 }
 COLORS = {
@@ -172,8 +172,8 @@ def plot():
     ]
     axes[1].legend(handles=handles, loc="lower right", fontsize=8.5, framealpha=0.95)
     fig.suptitle(
-        "Fig. 2b — Fe–S equilibrium: two boundary cases bounding the ±1σ all-compound envelope\n"
-        "(greigite ±7.3, pyrite ±6.0, pyrrhotite ±3.5 kJ/f.u.; pycalphad on Dilner-2015 + measured greigite)",
+        "Fig. 2b — Fe–S equilibrium: two boundary cases bounding the greigite enthalpy uncertainty\n"
+        "(greigite ±7.3 kJ per FeS$_{1.33}$, 2 SD; pyrite and pyrrhotite assessed; pycalphad on Dilner-2015)",
         fontsize=11,
     )
     note = (

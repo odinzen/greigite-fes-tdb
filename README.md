@@ -73,9 +73,9 @@ directory doesn't matter), named for the manuscript figure it produces:
 | Fig. S8A (2026 DSC, raw export) | `manuscript/make_dsc_2026_remeasurement.py` | `dsc_2026_remeasurement.png` |
 
 The anhydrous Fe–S–O diagrams (Figs. S2, S5) are computed at 300 K, the temperature of
-the manuscript's boundary-fugacity tables. The uncertainty bounds (Fig. 2 and panels S5B, S6B) shift all
-three sulfides by the uncertainties reported with their formation enthalpies (Subramani et al.
-2020, Table 1): greigite opposite to pyrite and pyrrhotite. Figs. S7 and S8 are
+the manuscript's boundary-fugacity tables. The uncertainty bounds (Fig. 2 and panels S5B, S6B) shift only
+the greigite enthalpy, by its reported uncertainty (7.3 kJ per mole Fe, 2 SD of the mean;
+Subramani et al. 2020). Pyrite and pyrrhotite are assessed database values and stay fixed. Figs. S7 and S8 are
 measured data, not calculations: panel A of each is the DSC run (2020, and the same sample again in
 2026) and panel B the powder XRD of the post-DSC product. The two DSC scripts re-plot the raw
 instrument exports in `manuscript/data_dsc/` (heat flow in µV); the manuscript panels show the same

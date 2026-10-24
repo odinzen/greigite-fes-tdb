@@ -4,9 +4,9 @@
 Companion to the 300 K split (make_Figure_S5_predominance_300K.py, Fig. S5A/S5B). Same single TDB, same grand-potential construction, T = 600 K.
 Two outputs (the manuscript stacks them as Fig. S6A / S6B):
   Figure_S6A.png     central dHf (greigite stable, narrower field)
-  Figure_S6B.png  least-stable bound, every sulfide shifted by its reported uncertainty
-Per-Fe enthalpy offsets are temperature-independent, so the least-stable shifts
-(greigite +7300, pyrite -6000, pyrrhotite -3500 J/mol-Fe) carry over from the 300 K case.
+  Figure_S6B.png  least-stable bound, greigite raised by its reported uncertainty
+The per-Fe enthalpy offset is temperature-independent, so the greigite shift (+7300 J/mol-Fe)
+carries over from the 300 K case; pyrite and pyrrhotite stay at the assessed values.
 No in-image title (the caption lives in the manuscript).
 """
 
@@ -149,13 +149,18 @@ def make(dGr, dPo, dPy, out):
 
 print("T=600 K | log f(S2) native-S sat = %.2f" % LFS2_SAT)
 make(0.0, 0.0, 0.0, str(FIG / "Figure_S6A.png"))
-make(7300.0, -3500.0, -6000.0, str(FIG / "Figure_S6B.png"))
+make(7300.0, 0.0, 0.0, str(FIG / "Figure_S6B.png"))
 
 
-def boundary(a, b):
-    muS2_b = (Gpf[a] - Gpf[b]) / (nS2[a] - nS2[b])
-    return (muS2_b - G_S2) / RTLN10
+def boundary(a, b, dGr=0.0):
+    ga = Gpf[a] + (dGr if a == "Gr" else 0.0)
+    gb = Gpf[b] + (dGr if b == "Gr" else 0.0)
+    return ((ga - gb) / (nS2[a] - nS2[b]) - G_S2) / RTLN10
 
 
-print("central Fe/Gr   log f(S2) = %.1f" % boundary("Fe", "Gr"))
-print("central Gr/FeS2 log f(S2) = %.1f" % boundary("Gr", "FeS2"))
+# Table 2 sulfide rows at 600 K, central and least-stable greigite bound
+print("central Fe/Gr          log f(S2) = %.1f" % boundary("Fe", "Gr"))
+print("central Gr/FeS2        log f(S2) = %.1f" % boundary("Gr", "FeS2"))
+print("least stable Fe/Po     log f(S2) = %.1f" % boundary("Fe", "Po", 7300.0))
+print("least stable Po/Gr     log f(S2) = %.1f" % boundary("Po", "Gr", 7300.0))
+print("least stable Gr/FeS2   log f(S2) = %.1f" % boundary("Gr", "FeS2", 7300.0))
